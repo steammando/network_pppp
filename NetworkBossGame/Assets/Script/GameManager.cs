@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     private int GameDifficult;
     public Boss boss;
     public Player player;
+    public Beam beam;
     // Use this for initialization
     public static GameManager instance = null;
     void Awake()
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour {
     {
         boss = GameObject.FindObjectOfType<Boss>();
         player = GameObject.FindObjectOfType<Player>();
+        beam = GameObject.FindObjectOfType<Beam>();
     }
 
     // Update is called once per frame

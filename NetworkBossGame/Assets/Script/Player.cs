@@ -12,9 +12,11 @@ public class Player : MonoBehaviour {
     private Vector3 moveVector;
     private Vector3 SpeedVector;
     private GameObject temp;
+    private Color color;
 
     private float health=100;
     private float moveSpeed = 5f;
+    private bool invincibility;
     private bool activeBool;
     private bool attackState;
     private bool attackFlag;
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         activeBool = false;//activeBool은 현재 지정된 키를 입력하고 있는지 확인하는 부분.
+        invincibility = false;
         attackState = false;
         attackFlag = true;
         curPos = state.air;
@@ -72,18 +75,40 @@ public class Player : MonoBehaviour {
 
     public void Damaged(int _d)
     {
-        keyActivation = false;
-        health -= _d;
-        
-        anim.SetTrigger("Jump");
-        anim.SetTrigger("Down");
-        Debug.Log(direction);
-        rb2d.velocity = new Vector3(0,0, 0);
-        curPos = state.air;
-        rb2d.AddForce(new Vector3(direction * -100f, 100f, 0));
-        Debug.Log("HP : " + health);
-        if (health <= 0)
-            GameManager.instance.GameOver();
+        if (!invincibility)
+        {
+            StartCoroutine("MakeInv");
+            keyActivation = false;
+            health -= _d;
+
+            anim.SetTrigger("Jump");
+            anim.SetTrigger("Down");
+            Debug.Log(direction);
+            rb2d.velocity = new Vector3(0, 0, 0);
+            curPos = state.air;
+            rb2d.AddForce(new Vector3(direction * -100f, 100f, 0));
+            Debug.Log("HP : " + health);
+            if (health <= 0)
+                GameManager.instance.GameOver();
+        }
+    }
+    IEnumerator MakeInv()
+    {
+        invincibility = true;
+        for(int i=0;i<5;i++)
+        {
+            color = gameObject.GetComponent<SpriteRenderer>().color;
+            if (color.a == 255f)
+                color.a = 0f;
+            else
+                color.a = 255f;
+            gameObject.GetComponent<SpriteRenderer>().color = color;
+            yield return new WaitForSeconds(0.1f);
+        }
+        invincibility = false;
+        color.a = 255;
+        gameObject.GetComponent<SpriteRenderer>().color = color;
+        yield return null;
     }
     IEnumerator Move()
     {
@@ -187,7 +212,6 @@ public class Player : MonoBehaviour {
             anim.ResetTrigger("Down");
             anim.ResetTrigger("Move");
 
-
             anim.SetTrigger("Idle");
             //moveVector.x = 0f;
             rb2d.velocity = new Vector3(0,0,0);
@@ -196,12 +220,20 @@ public class Player : MonoBehaviour {
         }
         if (_col.gameObject.tag == "BossBullet")
         {
-            Damaged(10);
+            Debug.Log("Damaged!");
+            Damaged(5);
+        }
+    }
+    void OnTriggerEnter2D(Collider2D _col)
+    {
+        if(_col.CompareTag("BossBullet"))
+        {
+            Debug.Log("Damaged!");
+            Damaged(5);
         }
     }
     public void setHealth()
     {
-       
         health = GameManager.instance.getDifficult()*50;
     }
     public void setAttackFlag()

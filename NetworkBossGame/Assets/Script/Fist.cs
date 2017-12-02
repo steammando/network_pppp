@@ -35,7 +35,6 @@ public class Fist : MonoBehaviour
             }
             else
             {
-                Debug.Log("why?");
                 objectPosition.y = -3f;
                 objectPosition.x += 3f;
                 gameObject.transform.position = objectPosition;

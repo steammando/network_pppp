@@ -23,6 +23,7 @@ public class Boss : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        /*
         if (Input.GetKey(KeyCode.Alpha3)&&activeBool)
         {
             direction = true;
@@ -32,9 +33,11 @@ public class Boss : MonoBehaviour {
         {
             direction = false;
             StartCoroutine("move");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && activeBool)
+        }*/
+        if (Input.GetKeyDown(KeyCode.Alpha1) && activeBool)
             dropThorn();
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            GameManager.instance.beam.ShootBeam();
     }
 
     void OnTriggerEnter2D(Collider2D _col)

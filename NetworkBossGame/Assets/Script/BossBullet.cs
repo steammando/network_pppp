@@ -6,7 +6,7 @@ public class BossBullet : MonoBehaviour {
 
     // Use this for initialization
     private int numOfBullet;
-    private float speed = 100;
+    private float speed = 200;
     private bool bulletCoolDown;
     private float direction;
     public GameObject bullet; 
@@ -42,7 +42,7 @@ public class BossBullet : MonoBehaviour {
 
            // yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
         bulletCoolDown = true;
         //} while (true) ;
     }
