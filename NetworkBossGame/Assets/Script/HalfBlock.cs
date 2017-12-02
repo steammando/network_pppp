@@ -11,30 +11,47 @@ public class HalfBlock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+       
+    }
     public void goDown()
     {
-        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        {
+            //gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            gameObject.GetComponent<EdgeCollider2D>().isTrigger = true;
+        }
     }
     void OnCollisionEnter2D(Collision2D _col)
     {
         if (_col.gameObject.tag == "Head")
-            gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        {
+           // gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            gameObject.GetComponent<EdgeCollider2D>().isTrigger = true;
+        }
     }
     void OnCollisionExit2D(Collision2D _col)
     {
-        if(_col.gameObject.tag=="Foot")
-            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        if (_col.gameObject.tag == "Foot")
+        {
+            // gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            Debug.Log("Attach");
+            gameObject.GetComponent<EdgeCollider2D>().isTrigger = false;
+        }
     }
     void OnTriggerEnter2D(Collider2D _col)
     {
-        if(_col.gameObject.tag=="Head")
-            gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        if (_col.gameObject.tag == "Head")
+        {
+            //gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            gameObject.GetComponent<EdgeCollider2D>().isTrigger = true;
+        }
     }
     void OnTriggerExit2D(Collider2D _col)
     {
         if (_col.gameObject.tag == "Foot")
-            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        {
+            //gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            Debug.Log("Attach2");
+            gameObject.GetComponent<EdgeCollider2D>().isTrigger = false;
+        }
     }
 }
