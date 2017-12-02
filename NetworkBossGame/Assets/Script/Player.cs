@@ -51,6 +51,7 @@ public class Player : MonoBehaviour {
             curPos = state.air;
             anim.SetTrigger("Down");
         }
+
         if(keyActivation)
             StartCoroutine("Move");
         
@@ -95,7 +96,7 @@ public class Player : MonoBehaviour {
     IEnumerator MakeInv()
     {
         invincibility = true;
-        for(int i=0;i<5;i++)
+        for(int i=0;i<7;i++)
         {
             color = gameObject.GetComponent<SpriteRenderer>().color;
             if (color.a == 255f)
@@ -107,6 +108,7 @@ public class Player : MonoBehaviour {
         }
         invincibility = false;
         color.a = 255;
+        keyActivation = true;
         gameObject.GetComponent<SpriteRenderer>().color = color;
         yield return null;
     }
@@ -140,7 +142,7 @@ public class Player : MonoBehaviour {
             curPos = state.air;
             activeBool = true;
             
-            rb2d.AddForce(new Vector3(0, 300f, 0));
+            rb2d.AddForce(new Vector3(0, 150f, 0));
         }
 
         if(Input.GetKey(KeyCode.D) && curPos==state.ground)
@@ -187,13 +189,17 @@ public class Player : MonoBehaviour {
 
     void OnCollisionStay2D(Collision2D _col)
     {
-        if ((_col.gameObject.tag == "Floor" || _col.gameObject.tag == "MainFloor" )&& curPos==state.ground)
+        if ((_col.gameObject.tag == "Floor" || _col.gameObject.tag == "MainFloor" ))
         {
             keyActivation = true;
+            
             anim.ResetTrigger("Jump");
             anim.ResetTrigger("Down");
-            rb2d.velocity = new Vector3(0, rb2d.velocity.y, 0);
-
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Hero_JumpDown"))
+            {
+                anim.SetTrigger("Idle");
+                rb2d.velocity = new Vector3(0, rb2d.velocity.y, 0);
+            }
             curPos = state.ground;
         }
         if(_col.gameObject.tag=="Floor" && Input.GetKey(KeyCode.DownArrow))
@@ -203,26 +209,37 @@ public class Player : MonoBehaviour {
             gameObject.transform.position = tmp;
         }
     }
+
     void OnCollisionEnter2D(Collision2D _col)
     {
         if (_col.gameObject.tag == "Floor"||_col.gameObject.tag=="MainFloor")
         {
             Debug.Log("Endl!");
+            
+            StartCoroutine("setActive");
+            //moveVector.x = 0f;
+            rb2d.velocity = new Vector3(0,0,0);
+            
+            curPos = state.ground;
             anim.ResetTrigger("Jump");
             anim.ResetTrigger("Down");
             anim.ResetTrigger("Move");
 
             anim.SetTrigger("Idle");
-            //moveVector.x = 0f;
-            rb2d.velocity = new Vector3(0,0,0);
-            
-            curPos = state.ground;
         }
         if (_col.gameObject.tag == "BossBullet")
         {
             Debug.Log("Damaged!");
             Damaged(5);
         }
+    }
+    IEnumerator setActive()
+    {
+        keyActivation = false;
+        Debug.Log("Cant!");
+        yield return new WaitForSeconds(0.5f);
+        keyActivation = true;
+        yield return null;
     }
     void OnTriggerEnter2D(Collider2D _col)
     {
