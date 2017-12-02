@@ -8,7 +8,8 @@ public class BossBullet : MonoBehaviour {
     private int numOfBullet;
     private float speed = 100;
     private bool bulletCoolDown;
-    public GameObject bullet;
+    private float direction;
+    public GameObject bullet; 
 	void OnEnable () {
         numOfBullet = 10;
         bulletCoolDown = true;
@@ -17,7 +18,7 @@ public class BossBullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Alpha5))
-            gameObject.transform.Rotate(Vector3.up * Time.deltaTime);
+            
         if (bulletCoolDown)
         {
             bulletCoolDown = false;

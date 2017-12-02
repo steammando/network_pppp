@@ -13,14 +13,14 @@ public class Player : MonoBehaviour {
     private Vector3 SpeedVector;
     private GameObject temp;
 
-
     private float health=100;
     private float moveSpeed = 5f;
     private bool activeBool;
     private bool attackState;
     private bool attackFlag;
     private bool keyActivation;
-
+   
+    private float direction;
     private enum state
     {
         ground,air
@@ -39,6 +39,8 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+       // Debug.Log(curPos);
+        direction = gameObject.transform.localScale.x;
         if (rb2d.velocity.y < 0)
         {
             anim.ResetTrigger("Idle");
@@ -46,8 +48,8 @@ public class Player : MonoBehaviour {
             curPos = state.air;
             anim.SetTrigger("Down");
         }
-
-        StartCoroutine("Move");
+        if(keyActivation)
+            StartCoroutine("Move");
         
         attackState = isAttack();
         
@@ -68,10 +70,19 @@ public class Player : MonoBehaviour {
 
     }
 
-    void Damaged(int _d)
+    public void Damaged(int _d)
     {
+        keyActivation = false;
         health -= _d;
-        if (health < 0)
+        
+        anim.SetTrigger("Jump");
+        anim.SetTrigger("Down");
+        Debug.Log(direction);
+        rb2d.velocity = new Vector3(0,0, 0);
+        curPos = state.air;
+        rb2d.AddForce(new Vector3(direction * -100f, 100f, 0));
+        Debug.Log("HP : " + health);
+        if (health <= 0)
             GameManager.instance.GameOver();
     }
     IEnumerator Move()
@@ -92,7 +103,7 @@ public class Player : MonoBehaviour {
             activeBool = true;
             moveVector.x = moveSpeed;
         }
-
+        
         if (Input.GetKey(KeyCode.UpArrow) && curPos==state.ground)
         {
             anim.ResetTrigger("Idle");
@@ -153,11 +164,18 @@ public class Player : MonoBehaviour {
     {
         if ((_col.gameObject.tag == "Floor" || _col.gameObject.tag == "MainFloor" )&& curPos==state.ground)
         {
+            keyActivation = true;
             anim.ResetTrigger("Jump");
             anim.ResetTrigger("Down");
             rb2d.velocity = new Vector3(0, rb2d.velocity.y, 0);
 
             curPos = state.ground;
+        }
+        if(_col.gameObject.tag=="Floor" && Input.GetKey(KeyCode.DownArrow))
+        {
+            Vector3 tmp=gameObject.transform.position;
+            tmp.y -= 0.5f;
+            gameObject.transform.position = tmp;
         }
     }
     void OnCollisionEnter2D(Collision2D _col)
@@ -180,6 +198,11 @@ public class Player : MonoBehaviour {
         {
             Damaged(10);
         }
+    }
+    public void setHealth()
+    {
+       
+        health = GameManager.instance.getDifficult()*50;
     }
     public void setAttackFlag()
     {

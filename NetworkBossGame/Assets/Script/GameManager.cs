@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
-
+        GameDifficult = 1;
         InitGame();
     }
 
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 	}
     public void GameOver()
     {
-
+        Debug.Log("GameOver");
     }
     public int getDifficult()
     {
