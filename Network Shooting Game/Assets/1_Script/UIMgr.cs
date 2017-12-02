@@ -24,4 +24,14 @@ public class UIMgr : MonoBehaviour {
     {
         SceneManager.LoadScene("Map");
     }
+
+    public void OnClickExit()
+    {
+        Application.Quit();
+    }
+
+    public void OnClickGoStage(int n)
+    {
+        SceneManager.LoadScene("Stage" + n);
+    }
 }

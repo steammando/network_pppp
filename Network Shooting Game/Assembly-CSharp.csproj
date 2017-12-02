@@ -51,8 +51,11 @@
      <Compile Include="Assets\1_Script\Explosion.cs" />
      <Compile Include="Assets\1_Script\ExplosionAni.cs" />
      <Compile Include="Assets\1_Script\KillObject.cs" />
+     <Compile Include="Assets\1_Script\MapMgr.cs" />
      <Compile Include="Assets\1_Script\Rigidbody2DExtension.cs" />
      <Compile Include="Assets\1_Script\UIMgr.cs" />
+     <Compile Include="Assets\1_Script\UnlockStage.cs" />
+     <Compile Include="Assets\1_Script\unstage.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
