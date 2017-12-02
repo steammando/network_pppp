@@ -81,6 +81,7 @@
     <Compile Include="Assets\Script\Fist.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\HalfBlock.cs" />
+    <Compile Include="Assets\Script\IceThorn.cs" />
     <Compile Include="Assets\Script\Knife.cs" />
     <Compile Include="Assets\Script\Player.cs" />
   </ItemGroup>

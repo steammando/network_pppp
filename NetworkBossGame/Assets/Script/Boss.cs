@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour {
 
+    public GameObject thorn_icile;
+
     private int health;
     private float moveSpeed = 10;
     private Rigidbody2D rb2d;
     private Animator anim;
     private bool activeBool;
+    
     bool direction;
     // Use this for initialization
     void Start () {
@@ -30,17 +33,30 @@ public class Boss : MonoBehaviour {
             direction = false;
             StartCoroutine("move");
         }
+        if (Input.GetKeyDown(KeyCode.Alpha2) && activeBool)
+            dropThorn();
     }
 
     void OnTriggerEnter2D(Collider2D _col)
     {
         if (_col.tag == "UserBullet")
         {
-            Debug.Log("AAA");
+            //Debug.Log("AAA");
             anim.SetTrigger("Damaged");
             StartCoroutine("Damaged");
         }
     }
+
+    void dropThorn()
+    {
+        Vector3 position = GameManager.instance.player.transform.position;
+        position.y = 5f;
+        position.x = position.x + Random.Range(-0.5f, 0.5f);
+        if (thorn_icile == null)
+            Debug.Log("is NULL...");
+        Instantiate(thorn_icile, position, Quaternion.identity);
+    }
+
     IEnumerator Damaged()
     {
         while (true)

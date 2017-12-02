@@ -16,6 +16,8 @@ public class BossBullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            gameObject.transform.Rotate(Vector3.up * Time.deltaTime);
         if (bulletCoolDown)
         {
             bulletCoolDown = false;
@@ -37,8 +39,9 @@ public class BossBullet : MonoBehaviour {
 
             obj.transform.Rotate(new Vector3(0f, 0f, 360 * i / numOfBullet - 90));
 
-            yield return new WaitForSeconds(0.1f);
+           // yield return new WaitForSeconds(0.1f);
         }
+        yield return new WaitForSeconds(4f);
         bulletCoolDown = true;
         //} while (true) ;
     }
