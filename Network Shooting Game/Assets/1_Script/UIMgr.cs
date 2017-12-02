@@ -7,9 +7,9 @@ public class UIMgr : MonoBehaviour {
     
     public void OnClickMenuButton(GameObject menu)
     {
-        menu.SetActive(!menu.active);
+        menu.SetActive(!menu.activeSelf);
 
-        if (menu.active)
+        if (menu.activeSelf)
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
