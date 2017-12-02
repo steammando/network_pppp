@@ -91,7 +91,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 442}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 66
+  controlID: 22
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -237,7 +237,7 @@ MonoBehaviour:
   - {fileID: 18}
   - {fileID: 12}
   m_Selected: 0
-  m_LastSelected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -256,8 +256,8 @@ MonoBehaviour:
     y: 375
     width: 628
     height: 356
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -287,13 +287,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 92
-    width: 706
+    width: 626
     height: 354
   m_ViewPositions:
     m_KeySerializationHelper:
     - {fileID: 1107629155640100898, guid: 55df88c7031f34147b5d095d5ee25cf5, type: 2}
     m_ValueSerializationHelper:
-    - {x: 373.6, y: 192.40001}
+    - {x: 325.6, y: 192.40001}
   m_PreviewAnimator: {fileID: 0}
   m_AnimatorController: {fileID: 0}
   m_BreadCrumbs: []
@@ -369,26 +369,26 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: e6fbffff0000000078260000
+    m_ExpandedIDs: 5ea9ffff4ef9ffffe6fbffff0000000086260000ae2c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: EventSystem
+      m_OriginalName: EventSystem
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 11328
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 7}
     m_SearchString: 
   m_ExpandedScenes:
-  - Map
+  - test
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -462,20 +462,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/1_Script
+    - Assets/4_Prefab
   m_ViewMode: 1
   m_StartGridSize: 72
   m_LastFolders:
-  - Assets/1_Script
+  - Assets/4_Prefab
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\neolg\Documents\GitHub\network_pppp\Network Shooting
     Game
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ea250000
-    m_LastClickedID: 9706
-    m_ExpandedIDs: 00000000ce2400001227000000ca9a3bffffff7f
+    m_SelectedIDs: 0c260000
+    m_LastClickedID: 9740
+    m_ExpandedIDs: 00000000ca2400002027000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -503,7 +503,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ce24000012270000
+    m_ExpandedIDs: 00000000ca24000020270000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -666,9 +666,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 276.2735, y: 162.68369, z: -0.5}
+    m_Target: {x: -0.48634994, y: -1.0328531, z: 4.133809}
     speed: 2
-    m_Value: {x: 276.2735, y: 162.68369, z: -0.5}
+    m_Value: {x: -0.48634994, y: -1.0328531, z: 4.133809}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -695,9 +695,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 356.79086
+    m_Target: 22.337982
     speed: 2
-    m_Value: 356.79086
+    m_Value: 22.337982
   m_Ortho:
     m_Target: 1
     speed: 2
