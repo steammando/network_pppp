@@ -39,7 +39,6 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(curPos);
         if (rb2d.velocity.y < 0)
         {
             anim.ResetTrigger("Idle");
@@ -47,7 +46,6 @@ public class Player : MonoBehaviour {
             curPos = state.air;
             anim.SetTrigger("Down");
         }
-        Debug.Log(curPos);
 
         StartCoroutine("Move");
         
