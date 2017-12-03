@@ -87,7 +87,7 @@ public class Player : MonoBehaviour {
             Debug.Log(direction);
             rb2d.velocity = new Vector3(0, 0, 0);
             curPos = state.air;
-            rb2d.AddForce(new Vector3(direction * -100f, 100f, 0));
+            rb2d.AddForce(new Vector3(direction * -300f, 100f, 0));
             Debug.Log("HP : " + health);
             if (health <= 0)
                 GameManager.instance.GameOver();
@@ -191,7 +191,7 @@ public class Player : MonoBehaviour {
     {
         if ((_col.gameObject.tag == "Floor" || _col.gameObject.tag == "MainFloor" ))
         {
-            keyActivation = true;
+            //keyActivation = true;
             
             anim.ResetTrigger("Jump");
             anim.ResetTrigger("Down");
@@ -237,7 +237,7 @@ public class Player : MonoBehaviour {
     {
         keyActivation = false;
         Debug.Log("Cant!");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.05f);
         keyActivation = true;
         yield return null;
     }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public Boss boss;
     public Player player;
     public Beam beam;
+    public int stage;
     // Use this for initialization
     public static GameManager instance = null;
     void Awake()
@@ -21,15 +22,19 @@ public class GameManager : MonoBehaviour {
 
         DontDestroyOnLoad(gameObject);
         GameDifficult = 1;
+        stage = 1;
         InitGame();
     }
 
     //Initializes the game for each level.
     void InitGame()
     {
-        boss = GameObject.FindObjectOfType<Boss>();
-        player = GameObject.FindObjectOfType<Player>();
-        beam = GameObject.FindObjectOfType<Beam>();
+        if (stage == 1)
+        {
+            boss = GameObject.FindObjectOfType<Boss>();
+            player = GameObject.FindObjectOfType<Player>();
+            beam = GameObject.FindObjectOfType<Beam>();
+        }
     }
 
     // Update is called once per frame
