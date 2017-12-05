@@ -13,7 +13,7 @@ public class Boss : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator anim;
     private bool activeBool;
-    
+    private GameObject rightFist;
     private BossBullet bulletManager;
     bool direction;
     // Use this for initialization
@@ -22,10 +22,11 @@ public class Boss : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         bulletManager = FindObjectOfType<BossBullet>();
+        rightFist = GameObject.FindGameObjectWithTag("RightFist");
         direction = true;
         activeBool = true;
-        patternBoolean = new bool[2];
-        for (int i = 0; i < 2; i++)
+        patternBoolean = new bool[3];
+        for (int i = 0; i < 3; i++)
             patternBoolean[i] = true;
         StartCoroutine("DropThorn");
     }
@@ -33,19 +34,6 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (Input.GetKey(KeyCode.Alpha3)&&activeBool)
-        {
-            direction = true;
-            StartCoroutine("move");
-        }
-        if (Input.GetKey(KeyCode.Alpha1)&&activeBool)
-        {
-            direction = false;
-            StartCoroutine("move");
-        }*/
-
-        //dropThorn();
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss"))
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && patternBoolean[0])
@@ -56,6 +44,10 @@ public class Boss : MonoBehaviour
             {
                 StartCoroutine("ReadyBeam");
 
+            }
+            if(Input.GetKeyDown(KeyCode.Alpha3)&&patternBoolean[2])
+            {
+                rightFist.GetComponent<Fist>().bump();
             }
         }
     }

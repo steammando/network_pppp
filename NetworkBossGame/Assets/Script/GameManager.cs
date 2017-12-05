@@ -20,15 +20,18 @@ public class GameManager : MonoBehaviour {
         else if (instance != this)
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         GameDifficult = 1;
         stage = 1;
-        InitGame();
+        boss = GameObject.FindObjectOfType<Boss>();
+        player = GameObject.FindObjectOfType<Player>();
+        beam = GameObject.FindObjectOfType<Beam>();
     }
 
     //Initializes the game for each level.
     void InitGame()
     {
+        Debug.Log("InItGame");
         if (stage == 1)
         {
             boss = GameObject.FindObjectOfType<Boss>();
@@ -44,6 +47,10 @@ public class GameManager : MonoBehaviour {
     public void GameOver()
     {
         Debug.Log("GameOver");
+    }
+    public void loadNextScene()
+    {
+        
     }
     public int getDifficult()
     {

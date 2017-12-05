@@ -85,6 +85,7 @@
     <Compile Include="Assets\Script\IceThorn.cs" />
     <Compile Include="Assets\Script\Knife.cs" />
     <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\StageManager.cs" />
     <Compile Include="Assets\Script\TangnamBall.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
