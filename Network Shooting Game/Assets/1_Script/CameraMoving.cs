@@ -5,8 +5,10 @@ using UnityEngine;
 public class CameraMoving : MonoBehaviour {
     private Camera self;
     private Vector3 moveOrigin;
+    private Vector3 prevMouse;
 
-    public float moveSpeed = 2f;
+    public bool ballclick;
+    
     public float zoomSpeed = 1f;
     public float zoomMax;
     public float zoomMin;
@@ -14,6 +16,7 @@ public class CameraMoving : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         self = GetComponent<Camera>();
+        ballclick = false;
 	}
 
     void Update()
@@ -27,24 +30,23 @@ public class CameraMoving : MonoBehaviour {
             Zoom(false);
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            moveOrigin = Input.mousePosition;
-            return;
-        }
+        if (!ballclick)
+            if (Input.GetMouseButton(0))
+            {
+                Moving();
+            }
 
-        if (!Input.GetMouseButton(0)) return;
-
-
-        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - moveOrigin);
-        Vector3 move = new Vector3(-pos.x * moveSpeed, -pos.y * moveSpeed, 0);
-
-        transform.Translate(move, Space.World);
+        prevMouse = Input.mousePosition;
     }
 
     void Moving()
     {
+        Vector3 move = (Input.mousePosition - prevMouse) * 0.1f;
 
+        move.x = -move.x;
+        move.y = -move.y;
+
+        self.transform.position = self.transform.position + move;
     }
 
     void Zoom(bool inout)

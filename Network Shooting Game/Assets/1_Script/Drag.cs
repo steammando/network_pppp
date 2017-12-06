@@ -8,6 +8,8 @@ public class Drag : MonoBehaviour {
     public LineRenderer back;
     public float maxStretch = 3.0f;
 
+    public GameObject cameraObj;//use camera move
+
     private bool clikedOn;
     private SpringJoint2D spring;
     private Vector2 prevVelocity;
@@ -59,11 +61,15 @@ public class Drag : MonoBehaviour {
     {
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         clikedOn = false;
+
+        cameraObj.GetComponent<CameraMoving>().ballclick = false;
     }
 
     void OnMouseDown()
     {
         clikedOn = true;
+
+        cameraObj.GetComponent<CameraMoving>().ballclick = true;
     }
 
     void Dragging()
