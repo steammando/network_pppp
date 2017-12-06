@@ -19,6 +19,20 @@ public class MapCreate : MonoBehaviour {
     private float tileGap = 0.6f;
 
 
+    //함정 추가
+    public GameObject obstacle;
+    private int obsNum = 10;
+    struct ObstacleStruct
+    {
+        public GameObject obj;
+        public Transform tf;
+        public bool active;
+        public Vector3 pos;
+        public int parentTileNum;
+    }
+    private ObstacleStruct[] obss;
+
+
 
 
 
@@ -54,7 +68,6 @@ public class MapCreate : MonoBehaviour {
                 tiles[i, j].pos = tiles[i, j].tf.position;
                 tiles[i, j].active = true;
 
-
                 tempVec.x += tileGap; // (가로행) 다음 타일은 tileGapX만큼 이동한 위치에 생성
                 lastTileNum++; // 현재 마지막 타일이 어느 것인지 판별하기 위한 변수++
 
@@ -62,5 +75,15 @@ public class MapCreate : MonoBehaviour {
             tempVec.x = -1.2f; // 다시 초기 위치로 이동;
             tempVec.y -= tileGap; //(세로행) 다음 타일은 tileGapY만큼 이동한 위치에서부터 생성하기 시작한다.
         }
+    }
+
+
+
+    void CreateObss ()
+    { // 장애물을 생성해서, 타일과 위치를 랜덤하게 교환합니다.
+        // 나중에는 난수로 배정하는게 아닌 투표를 통해서 위치 정보를 받아올 예정
+        obss = new ObstacleStruct[obsNum];
+
+
     }
 }
