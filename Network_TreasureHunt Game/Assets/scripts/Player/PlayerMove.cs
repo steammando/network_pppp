@@ -14,13 +14,6 @@ public class PlayerMove : MonoBehaviour {
     private Vector3 playerPos;
 
 
-    bool jumpOn = false; // 확인용
-    float jumpPower = 0.3f;
-    float tempJump;
-    Vector3 tempVec;
-
-
-
     private void Awake()
     {
         playerTF = transform;
@@ -43,35 +36,11 @@ public class PlayerMove : MonoBehaviour {
         {
             playerPos.x += speed;
         }
-        if (!jumpOn)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) == true)
-            {
-                StartCoroutine("JumpAction");
-            }
-        }
-        gameObject.transform.position = playerPos;
+       gameObject.transform.position = playerPos;
 
     }
-    IEnumerator JumpAction()
-    { // 점프 처리는 코루틴으로.
-        // 누르는 시간에 따라서 점프 파워가 달라진다.
-        jumpOn = true;
-        tempVec = playerTF.position;
-
-        tempJump = jumpPower;
-        tempVec.y += tempJump;
-        playerTF.position = tempVec;
-
-        while (tempVec.y > 0)
-        {
-            yield return new WaitForSeconds(0.03f);
-            tempJump -= 0.05f;
-            tempVec.y += tempJump;
-            playerTF.position = tempVec;
-        }
-        tempVec.y = 0.3f;
-        playerTF.position = tempVec;
-        jumpOn = false;
+    public void Have_Damage(int damage)
+    {
+        HP -= damage;
     }
 }
