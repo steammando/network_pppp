@@ -144,7 +144,12 @@ public class Player : MonoBehaviour {
             
             rb2d.AddForce(new Vector3(0, 150f, 0));
         }
-
+        if(Input.GetKeyDown(KeyCode.DownArrow)&&curPos==state.air)
+        {
+            moveVector = rb2d.velocity;
+            moveVector.y = -7;
+            rb2d.velocity = moveVector;
+        }
         if(Input.GetKey(KeyCode.D) && curPos==state.ground)
         {
             anim.SetTrigger("Attack");

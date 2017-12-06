@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour {
     void Update () {
 		
 	}
+    void OnTriggerEnter2D(Collider2D _col)
+    {
+        if (_col.CompareTag("Floor") || _col.CompareTag("MainFloor"))
+            Destroy(gameObject);
+    }
     public void GameOver()
     {
         Debug.Log("GameOver");

@@ -34,7 +34,7 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss")|| anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged"))
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && patternBoolean[0])
             {
@@ -109,9 +109,8 @@ public class Boss : MonoBehaviour
     {
         while (true)
         {
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
             {
-                Debug.Log("set!");
                 anim.ResetTrigger("Damaged");
                 anim.SetTrigger("Idle");
                 break;

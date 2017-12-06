@@ -84,6 +84,7 @@
     <Compile Include="Assets\Script\HalfBlock.cs" />
     <Compile Include="Assets\Script\IceThorn.cs" />
     <Compile Include="Assets\Script\Knife.cs" />
+    <Compile Include="Assets\Script\Lazer.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\StageManager.cs" />
     <Compile Include="Assets\Script\TangnamBall.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceThorn : MonoBehaviour {
+public class Lazer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +15,7 @@ public class IceThorn : MonoBehaviour {
 	}
     void OnTriggerEnter2D(Collider2D _col)
     {
-        if (_col.CompareTag("MainFloor") || _col.CompareTag("Floor")||_col.CompareTag("Wall"))
+        if (_col.CompareTag("Wall"))
             Destroy(gameObject);
     }
 }

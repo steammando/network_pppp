@@ -6,11 +6,12 @@ public class TangnamBall : MonoBehaviour {
 
     private Rigidbody2D rb2d;
     private Vector3 moveVector;
+    private int TTL;
     private float speed = 5f;
 	// Use this for initialization
 	void Awake () {
         rb2d = GetComponent<Rigidbody2D>();
-        
+        TTL = 3;
 	}
 	
 	// Update is called once per frame
@@ -28,6 +29,9 @@ public class TangnamBall : MonoBehaviour {
     {
         if(_col.CompareTag("Floor")|| _col.CompareTag("MainFloor"))
         {
+            TTL--;
+            if (TTL == 0)
+                Destroy(gameObject);
             moveVector = rb2d.velocity;
             moveVector.y = moveVector.y * -1;
             rb2d.velocity = moveVector;   
