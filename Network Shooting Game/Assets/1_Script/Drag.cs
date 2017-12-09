@@ -8,7 +8,10 @@ public class Drag : MonoBehaviour {
     public LineRenderer back;
     public float maxStretch = 3.0f;
 
+    public GameObject cameraObj;//use camera move
+
     private bool clikedOn;
+    private bool clikOnce;
     private SpringJoint2D spring;
     private Vector2 prevVelocity;
     private Ray leftCatapultToProjectile;
@@ -19,19 +22,30 @@ public class Drag : MonoBehaviour {
     void Awake()
     {
         spring = GetComponent<SpringJoint2D>();
+        spring.connectedBody = GameObject.Find("Catapult_1").GetComponent<Rigidbody2D>();
         catapult = spring.connectedBody.transform;
+
+        cameraObj = GameObject.Find("Main Camera");
     }
 
     void Start() {
+        front = GameObject.Find("Catapult_1").GetComponent<LineRenderer>();
+        back = GameObject.Find("Catapult_2").GetComponent<LineRenderer>();
         LineRendererSetup();
+
+        front.enabled = true;
+        back.enabled = true;
+
         rayToMouse = new Ray(catapult.position, Vector3.zero);
         leftCatapultToProjectile = new Ray(front.transform.position, Vector3.zero);
         circleRadius = GetComponent<CircleCollider2D>().radius / 2;
+
+        clikOnce = false;
     }
 
     void Update() {
 
-        if (clikedOn)
+        if (!clikOnce && clikedOn)
             Dragging();
 
         if (spring != null)
@@ -39,19 +53,25 @@ public class Drag : MonoBehaviour {
             if (!GetComponent<Rigidbody2D>().isKinematic && prevVelocity.sqrMagnitude > GetComponent<Rigidbody2D>().velocity.sqrMagnitude)
             {
                 Destroy(spring);
-
+                clikOnce = true;
                 GetComponent<Rigidbody2D>().velocity = prevVelocity;
             }
         }
         else
         {
-            front.enabled = false;
-            back.enabled = false;
+            if (front != null)
+            {
+                front.enabled = false;
+                back.enabled = false;
+            }
+            front = null;
+            back = null;
         }
 
         prevVelocity = GetComponent<Rigidbody2D>().velocity;
 
-        LineRendererUpdate();
+        if (front != null)
+            LineRendererUpdate();
 
     }
 
@@ -59,11 +79,15 @@ public class Drag : MonoBehaviour {
     {
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         clikedOn = false;
+
+        cameraObj.GetComponent<CameraMoving>().ballclick = false;
     }
 
     void OnMouseDown()
     {
         clikedOn = true;
+
+        cameraObj.GetComponent<CameraMoving>().ballclick = true;
     }
 
     void Dragging()

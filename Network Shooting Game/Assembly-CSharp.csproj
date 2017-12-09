@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\1_Script\BallSetting.cs" />
      <Compile Include="Assets\1_Script\CameraMoving.cs" />
      <Compile Include="Assets\1_Script\Drag.cs" />
      <Compile Include="Assets\1_Script\Explosion.cs" />
