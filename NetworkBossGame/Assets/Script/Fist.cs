@@ -18,7 +18,6 @@ public class Fist : MonoBehaviour
         attack, idle
     };
     private Vector3 bossPosition;
-    private Vector3 playerPositon;
     private Vector3 tempPosition;
     private Vector3 objectPosition;
     private state currentState;
@@ -37,7 +36,6 @@ public class Fist : MonoBehaviour
     void Update()
     {
         bossPosition = GameManager.instance.boss.transform.position;
-        playerPositon = GameManager.instance.player.transform.position;
         if (currentState == state.idle)
         {
             objectPosition = bossPosition;

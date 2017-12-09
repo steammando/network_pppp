@@ -6,8 +6,10 @@ public class Boss : MonoBehaviour
 {
 
     public GameObject thorn_icile;
+    public GameObject pet;
     public bool[] patternBoolean;
 
+    private GameObject obj_pet;
     private int health;
     private float moveSpeed = 10;
     private Rigidbody2D rb2d;
@@ -15,6 +17,7 @@ public class Boss : MonoBehaviour
     private bool activeBool;
     private GameObject rightFist;
     private BossBullet bulletManager;
+    private Thone thoneManager;
     bool direction;
     // Use this for initialization
     void Start()
@@ -22,11 +25,13 @@ public class Boss : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         bulletManager = FindObjectOfType<BossBullet>();
+        thoneManager = FindObjectOfType<Thone>();
+
         rightFist = GameObject.FindGameObjectWithTag("RightFist");
         direction = true;
         activeBool = true;
-        patternBoolean = new bool[3];
-        for (int i = 0; i < 3; i++)
+        patternBoolean = new bool[5];
+        for (int i = 0; i < 5; i++)
             patternBoolean[i] = true;
         StartCoroutine("DropThorn");
     }
@@ -48,6 +53,29 @@ public class Boss : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Alpha3)&&patternBoolean[2])
             {
                 rightFist.GetComponent<Fist>().bump();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && patternBoolean[3])
+        {
+            thoneManager.stab();
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha5)&&patternBoolean[4])
+        {
+            Vector3 Ppos = GameManager.instance.player.transform.position;
+            patternBoolean[4] = false;
+            if (Ppos.x < 0)
+            {
+                Ppos.x = 10;
+                Ppos.y -= 1f;
+                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
+                obj_pet.GetComponent<BossPet>().run(-1);
+            }
+            else
+            {
+                Ppos.x = -10;
+                Ppos.y -= 1f;
+                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
+                obj_pet.GetComponent<BossPet>().run(1);
             }
         }
     }

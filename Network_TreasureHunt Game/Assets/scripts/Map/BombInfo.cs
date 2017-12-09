@@ -20,8 +20,9 @@ public class BombInfo : MonoBehaviour {
         if (col.CompareTag("Player"))
         {
             Debug.Log("충돌");
-            gameObject.SetActive(false);
             col.gameObject.GetComponent<PlayerMove>().Have_Damage(damage);
+            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
