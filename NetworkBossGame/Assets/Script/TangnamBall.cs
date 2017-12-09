@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TangnamBall : MonoBehaviour {
 
+    public GameObject effect;
     private Rigidbody2D rb2d;
     private Vector3 moveVector;
     private int TTL;
@@ -11,7 +12,7 @@ public class TangnamBall : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         rb2d = GetComponent<Rigidbody2D>();
-        TTL = 3;
+        TTL = 2;
 	}
 	
 	// Update is called once per frame
@@ -31,10 +32,23 @@ public class TangnamBall : MonoBehaviour {
         {
             TTL--;
             if (TTL == 0)
-                Destroy(gameObject);
+            {
+
+                StartCoroutine("DestroyGameObject");
+            }
             moveVector = rb2d.velocity;
             moveVector.y = moveVector.y * -1;
-            rb2d.velocity = moveVector;   
+            rb2d.velocity = moveVector;
         }
+    }
+    IEnumerator DestroyGameObject()
+    {
+        GameObject effect_temp;
+        effect_temp=Instantiate(effect, gameObject.transform.position, Quaternion.identity);
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+        yield return new WaitForSeconds(0.5f);
+        Destroy(effect_temp);
+        Destroy(gameObject);
     }
 }

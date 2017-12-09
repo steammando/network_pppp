@@ -6,13 +6,14 @@ public class Player : MonoBehaviour {
 
     public GameObject knife;
     public GameObject effect;
+    
     private Rigidbody2D rb2d;
     private Animator anim;
 
     private Vector3 moveVector;
     private Vector3 SpeedVector;
     private GameObject temp;
-
+    
     private Color color;
     private float health=100;
     private float moveSpeed = 5f;
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour {
     private bool attackState;
     private bool attackFlag;
     private bool keyActivation;
-   
+    private GameObject effectBomb;
     private float direction;
     private enum state
     {
@@ -85,10 +86,14 @@ public class Player : MonoBehaviour {
             if (health <= 0)
             {
                 keyActivation = false;
-                if(gameObject.GetComponent<SpriteRenderer>().color.a!=0)
-                Instantiate(effect, gameObject.transform.position, Quaternion.identity);
+                if (gameObject.GetComponent<SpriteRenderer>().color.a != 0)
+                {
+                    effectBomb = Instantiate(effect, gameObject.transform.position, Quaternion.identity);
+                    StartCoroutine("DestoryAnim");
+                }
                 GameManager.instance.GameOver();
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255,0);
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+                
             }
             else
             {
@@ -102,6 +107,11 @@ public class Player : MonoBehaviour {
                 rb2d.AddForce(new Vector3(direction * -300f, 100f, 0));
             }
         }
+    }
+    IEnumerator DestoryAnim()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(effectBomb);
     }
     IEnumerator MakeInv()
     {
@@ -236,11 +246,12 @@ public class Player : MonoBehaviour {
 
             anim.SetTrigger("Idle");
         }
+        
+/*
         if (_col.gameObject.tag == "BossBullet")
         {
-            Debug.Log("Damaged!");
             Damaged(5);
-        }
+        }*/
     }
     IEnumerator setActive()
     {
@@ -254,9 +265,12 @@ public class Player : MonoBehaviour {
     {
         if(_col.CompareTag("BossBullet"))
         {
-            Debug.Log("Damaged!");
             Damaged(5);
         }
+        if (_col.gameObject.tag == "MiniMob")
+            Damaged(5);
+        if (_col.gameObject.tag == "Thone")
+            Damaged(10);
     }
     public void setHealth()
     {
