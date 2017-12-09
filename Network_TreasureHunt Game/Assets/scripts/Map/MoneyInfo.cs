@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombInfo : MonoBehaviour {
+public class MoneyInfo : MonoBehaviour {
 
     Vector3 thisBlockPos;
 
 
-    int damage = 1;
+    int money = 5;
 
     private void Awake()
     {
@@ -19,13 +19,10 @@ public class BombInfo : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            Debug.Log("폭탄 받아라!!!");
-            col.gameObject.GetComponent<PlayerMove>().Have_Damage(damage);
+            Debug.Log("돈 획득");
+            col.gameObject.GetComponent<PlayerMove>().Earn_Money(money);
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }
-
-
-
 }
