@@ -43,10 +43,7 @@ public class CameraMoving : MonoBehaviour {
     {
         Vector3 move = (Input.mousePosition - prevMouse) * 0.1f;
 
-        move.x = -move.x;
-        move.y = -move.y;
-
-        self.transform.position = self.transform.position + move;
+        self.transform.position = self.transform.position - move;
     }
 
     void Zoom(bool inout)
