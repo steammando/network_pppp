@@ -49,6 +49,7 @@
      <Compile Include="Assets\1_Script\BallSetting.cs" />
      <Compile Include="Assets\1_Script\CameraMoving.cs" />
      <Compile Include="Assets\1_Script\Drag.cs" />
+     <Compile Include="Assets\1_Script\EnjoyBGM.cs" />
      <Compile Include="Assets\1_Script\Explosion.cs" />
      <Compile Include="Assets\1_Script\ExplosionAni.cs" />
      <Compile Include="Assets\1_Script\KillObject.cs" />
