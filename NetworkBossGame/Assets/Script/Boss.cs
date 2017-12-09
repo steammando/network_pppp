@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Boss : MonoBehaviour
 {
 
     public GameObject thorn_icile;
     public GameObject pet;
+    
     public bool[] patternBoolean;
-
+    public Image healthBar;
     private GameObject obj_pet;
-    private int health;
+    private float health;
+    private float fullHealth;
     private float moveSpeed = 10;
     private Rigidbody2D rb2d;
     private Animator anim;
@@ -28,6 +30,8 @@ public class Boss : MonoBehaviour
         thoneManager = FindObjectOfType<Thone>();
 
         rightFist = GameObject.FindGameObjectWithTag("RightFist");
+        fullHealth = 1000;
+        health = 1000;
         direction = true;
         activeBool = true;
         patternBoolean = new bool[5];
@@ -135,6 +139,8 @@ public class Boss : MonoBehaviour
     }
     IEnumerator Damaged()
     {
+        health -= 10;
+        healthBar.fillAmount = health / fullHealth;
         while (true)
         {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
