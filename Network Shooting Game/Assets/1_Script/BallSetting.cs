@@ -15,12 +15,12 @@ public class BallSetting : MonoBehaviour {
     void Start () {
         ballSet = new Queue<GameObject>();
 
-        ballSet.Enqueue(Item[0]);
+        ballSet.Enqueue(Item[2]);
         ballSet.Enqueue(Item[1]);
 	}
 	
 	void Update () {
-        if (ballSet.Count != 0 && (ball == null || ball.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic))
+        if (ballSet.Count > 0 && (ball == null || ball.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic))
         {
             ball = ballSet.Dequeue();
             loadingBall = true;

@@ -54,6 +54,8 @@
      <Compile Include="Assets\1_Script\KillObject.cs" />
      <Compile Include="Assets\1_Script\MapMgr.cs" />
      <Compile Include="Assets\1_Script\Rigidbody2DExtension.cs" />
+     <Compile Include="Assets\1_Script\Separation.cs" />
+     <Compile Include="Assets\1_Script\StageClear.cs" />
      <Compile Include="Assets\1_Script\UIMgr.cs" />
      <Compile Include="Assets\1_Script\UnlockStage.cs" />
      <Compile Include="Assets\1_Script\unstage.cs" />

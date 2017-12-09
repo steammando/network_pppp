@@ -35,9 +35,14 @@ public class UIMgr : MonoBehaviour {
         SceneManager.LoadScene("Stage" + n);
     }
 
-    public void OnClickRe()
+    public void OnClickRe(int n)
     {
         //restart
-        //SceneManager.LoadScene();
+        SceneManager.LoadScene("Stage" + n);
+    }
+
+    public void OnClickNext(int stageNum)
+    {
+        SceneManager.LoadScene("Stage" + (stageNum + 1));
     }
 }
