@@ -15,6 +15,7 @@ public class Boss : MonoBehaviour
     private bool activeBool;
     private GameObject rightFist;
     private BossBullet bulletManager;
+    private Thone thoneManager;
     bool direction;
     // Use this for initialization
     void Start()
@@ -22,11 +23,13 @@ public class Boss : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         bulletManager = FindObjectOfType<BossBullet>();
+        thoneManager = FindObjectOfType<Thone>();
+
         rightFist = GameObject.FindGameObjectWithTag("RightFist");
         direction = true;
         activeBool = true;
-        patternBoolean = new bool[3];
-        for (int i = 0; i < 3; i++)
+        patternBoolean = new bool[4];
+        for (int i = 0; i < 4; i++)
             patternBoolean[i] = true;
         StartCoroutine("DropThorn");
     }
@@ -49,6 +52,10 @@ public class Boss : MonoBehaviour
             {
                 rightFist.GetComponent<Fist>().bump();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && patternBoolean[3])
+        {
+            thoneManager.stab();
         }
     }
 

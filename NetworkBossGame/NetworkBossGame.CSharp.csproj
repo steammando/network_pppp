@@ -79,6 +79,7 @@
     <Compile Include="Assets\Script\Block.cs" />
     <Compile Include="Assets\Script\Boss.cs" />
     <Compile Include="Assets\Script\BossBullet.cs" />
+    <Compile Include="Assets\Script\BossPet.cs" />
     <Compile Include="Assets\Script\Fist.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
     <Compile Include="Assets\Script\HalfBlock.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\StageManager.cs" />
     <Compile Include="Assets\Script\TangnamBall.cs" />
+    <Compile Include="Assets\Script\Thone.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

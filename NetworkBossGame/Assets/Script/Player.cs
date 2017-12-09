@@ -5,15 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public GameObject knife;
-
+    public GameObject effect;
     private Rigidbody2D rb2d;
     private Animator anim;
 
     private Vector3 moveVector;
     private Vector3 SpeedVector;
     private GameObject temp;
-    private Color color;
 
+    private Color color;
     private float health=100;
     private float moveSpeed = 5f;
     private bool invincibility;
@@ -78,19 +78,29 @@ public class Player : MonoBehaviour {
     {
         if (!invincibility)
         {
-            StartCoroutine("MakeInv");
-            keyActivation = false;
+           
             health -= _d;
-
-            anim.SetTrigger("Jump");
-            anim.SetTrigger("Down");
-            Debug.Log(direction);
-            rb2d.velocity = new Vector3(0, 0, 0);
-            curPos = state.air;
-            rb2d.AddForce(new Vector3(direction * -300f, 100f, 0));
+            
             Debug.Log("HP : " + health);
             if (health <= 0)
+            {
+                keyActivation = false;
+                if(gameObject.GetComponent<SpriteRenderer>().color.a!=0)
+                Instantiate(effect, gameObject.transform.position, Quaternion.identity);
                 GameManager.instance.GameOver();
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255,0);
+            }
+            else
+            {
+                StartCoroutine("MakeInv");
+                keyActivation = false;
+                anim.SetTrigger("Jump");
+                anim.SetTrigger("Down");
+
+                rb2d.velocity = new Vector3(0, 0, 0);
+                curPos = state.air;
+                rb2d.AddForce(new Vector3(direction * -300f, 100f, 0));
+            }
         }
     }
     IEnumerator MakeInv()
@@ -142,13 +152,7 @@ public class Player : MonoBehaviour {
             curPos = state.air;
             activeBool = true;
             
-            rb2d.AddForce(new Vector3(0, 150f, 0));
-        }
-        if(Input.GetKeyDown(KeyCode.DownArrow)&&curPos==state.air)
-        {
-            moveVector = rb2d.velocity;
-            moveVector.y = -7;
-            rb2d.velocity = moveVector;
+            rb2d.AddForce(new Vector3(0, 180f, 0));
         }
         if(Input.GetKey(KeyCode.D) && curPos==state.ground)
         {

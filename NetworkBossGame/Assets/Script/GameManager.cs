@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public Player player;
     public Beam beam;
     public int stage;
+    private bool gameOver;
     // Use this for initialization
     public static GameManager instance = null;
     void Awake()
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour {
 
         else if (instance != this)
             Destroy(gameObject);
-
+        gameOver = false;
         //DontDestroyOnLoad(gameObject);
         GameDifficult = 1;
         stage = 1;
@@ -51,11 +52,12 @@ public class GameManager : MonoBehaviour {
     }
     public void GameOver()
     {
-        Debug.Log("GameOver");
+        gameOver = true;
     }
     public void loadNextScene()
     {
-        
+        if(gameOver)
+            SceneManager.LoadScene("GameOver");
     }
     public int getDifficult()
     {
