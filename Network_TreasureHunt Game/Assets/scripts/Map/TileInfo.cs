@@ -6,7 +6,6 @@ public class TileInfo : MonoBehaviour {
     public int x;
     public int y;
     public bool active;
-    bool dig;
 
     Vector3 thisBlockPos;
 
@@ -17,22 +16,17 @@ public class TileInfo : MonoBehaviour {
     }
 
     
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionStay2D(Collision2D col)
     {
         Debug.Log("tile[" + y + "," + x + "]과 충돌");
-
-        dig = col.gameObject.GetComponent<PlayerMove>().dig_mode;
-
-        active = false;
     }
 
-    public void check_active()
+    public void destroy()
     {
-        if (active == false && dig == true)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
+       
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+        
     }
 }
 

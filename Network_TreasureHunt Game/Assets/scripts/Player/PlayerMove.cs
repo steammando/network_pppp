@@ -6,14 +6,19 @@ public class PlayerMove : MonoBehaviour {
     public int HP = 10;
     public int Money = 0;
     public float speed = 8f;
+    public float movePower = 1f;
 
 
-    public bool dig_mode;
+    Rigidbody2D rigid;
+    Vector3 movement;
+
 
     private Rigidbody2D rb2d;
     private Transform playerTF;
     private Vector3 playerPos;
     private Vector3 TempPlayerScale;
+    
+    private TileInfo currentTile = null;
 
     private void Awake()
     {
@@ -22,52 +27,57 @@ public class PlayerMove : MonoBehaviour {
         BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
     }
 
-    // Use this for initialization
+   
     void Start () {
         playerPos = playerTF.position;
+        rigid = gameObject.GetComponent<Rigidbody2D>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
 
-        Moving();
+	void Update () {
+        acting();
     }
-    
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+
+
+
+
     void OnCollisionStay2D(Collision2D col)
     {
         int j = col.gameObject.GetComponent<TileInfo>().x;
         int i = col.gameObject.GetComponent<TileInfo>().y;
-        col.gameObject.GetComponent<TileInfo>().check_active();
+        currentTile = col.gameObject.GetComponent<TileInfo>();
     }
     
-    public void Moving()
+    public void acting()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) == true) // Move left
-        {
-            playerPos.x -= speed;
-            Debug.Log("왼쪽 이동");
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow) == true) // Move Right
-        {
-            playerPos.x += speed;
-            Debug.Log("오른쪽 이동");
-        }
-
-
-
-
+        
         if (Input.GetKey(KeyCode.Space) == true) // dig tile
         {
+            if(currentTile!=null)
+                GameObject.Destroy(currentTile.gameObject);
+        }
+        
+    }
 
-            dig_mode = true;
-            Debug.Log("Dig == true");
-        }
-        else
+    void Move()
+    {
+        Vector3 moveVelocity = Vector3.zero;
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            dig_mode = false;
-            Debug.Log("Dig == false");
+            moveVelocity = Vector3.left;
         }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            moveVelocity = Vector3.right;
+        }
+
+        transform.position += moveVelocity * movePower * Time.deltaTime;
     }
 
 
