@@ -6,15 +6,19 @@ public class PlayerMove : MonoBehaviour {
     public int HP = 10;
     public int Money = 0;
     public float speed = 8f;
+    public float movePower = 1f;
 
 
-
+    Rigidbody2D rigid;
+    Vector3 movement;
 
 
     private Rigidbody2D rb2d;
     private Transform playerTF;
     private Vector3 playerPos;
     private Vector3 TempPlayerScale;
+    
+    private TileInfo currentTile = null;
 
     private void Awake()
     {
@@ -23,57 +27,58 @@ public class PlayerMove : MonoBehaviour {
         BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
     }
 
-    // Use this for initialization
+   
     void Start () {
         playerPos = playerTF.position;
+        rigid = gameObject.GetComponent<Rigidbody2D>();
 	}
 	
-	// Update is called once per frame
+
 	void Update () {
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow) == true) // Move left
-        {
-
-            /*if()
-                rb2d.velocity = new Vector3(speed, 0, 0);*/
-                
-                playerPos.x -= speed;
-
-            /*if (gameObject.tag == "Block"){
-                Destroy(gameObject);
-
-                //gameObject.active = false;
-
-                //충돌도 같이하면 부숴라
-
-            }*/
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow) == true) // Move Right
-        {
-            playerPos.x += speed;
-            rb2d.velocity = new Vector3(speed, 0, 0);
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow) == true) // dig tile
-        {
-            playerPos.y -= (1f /speed);
-            
-        }
-        gameObject.transform.position = playerPos;
-
+        acting();
+    }
+    private void FixedUpdate()
+    {
+        Move();
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+
+
+
+
+    void OnCollisionStay2D(Collision2D col)
     {
         int j = col.gameObject.GetComponent<TileInfo>().x;
         int i = col.gameObject.GetComponent<TileInfo>().y;
-        col.gameObject.GetComponent<TileInfo>().check_active();
+        currentTile = col.gameObject.GetComponent<TileInfo>();
+    }
+    
+    public void acting()
+    {
+        
+        if (Input.GetKey(KeyCode.Space) == true) // dig tile
+        {
+            if(currentTile!=null)
+                GameObject.Destroy(currentTile.gameObject);
+        }
+        
     }
 
+    void Move()
+    {
+        Vector3 moveVelocity = Vector3.zero;
 
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            moveVelocity = Vector3.left;
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            moveVelocity = Vector3.right;
+        }
+
+        transform.position += moveVelocity * movePower * Time.deltaTime;
+    }
 
 
     public void Have_Damage(int damage)
@@ -84,20 +89,5 @@ public class PlayerMove : MonoBehaviour {
     {
         Money += gold;
     }
-  
-
-
-
-
-    public void TurnThePlayer(int type) //살짝 넉백 주기
-    {
-        if (type == 1) //오른쪽 벽과 충돌
-        {
-            playerPos.x -= 0.2f;
-        }
-        if (type == 2) //왼쪽 벽과 충돌
-        {
-            playerPos.x += 0.2f;
-        }
-    }
+    
 }

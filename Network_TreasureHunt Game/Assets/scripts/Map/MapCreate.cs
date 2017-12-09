@@ -2,6 +2,7 @@
 
 public class MapCreate : MonoBehaviour {
     public GameObject tile;
+
     private int tile_row = 5; // 가로
     private int tile_column = 20; // 세로
 
@@ -28,6 +29,19 @@ public class MapCreate : MonoBehaviour {
     }
     private ObstacleStruct[] obss;
 
+    //코인 추가
+    public GameObject Coin_money;
+    private int coinNum = 1;
+    struct CoinStruct {
+        public GameObject obj;
+        public Transform tf;
+        public bool active;
+        public Vector3 pos;
+        public int parentTileNum;
+    }
+    private CoinStruct[] coin;
+
+
 
 
     private Vector3 tempVec; // 임시벡터값
@@ -50,7 +64,7 @@ public class MapCreate : MonoBehaviour {
 
         tiles = new TileSturct[tile_row, tile_column]; // 총 tile_row * tile_column 만큼을 반복해서 사용합니다.
         obss = new ObstacleStruct[obsNum];
-
+        coin = new CoinStruct[coinNum];
 
         for (int j = 0; j < tile_column; j++)
         {
@@ -78,6 +92,18 @@ public class MapCreate : MonoBehaviour {
                     obss[obsNum-1].parentTileNum = lastTileNum;
                     obsNum--;
 
+                }
+                
+                else if(coinNum > 0)
+                {
+                    tiles[i, j].active = false;
+
+                    coin[coinNum - 1].obj = Instantiate(Coin_money, position: tempVec, rotation: Quaternion.identity) as GameObject;
+                    coin[coinNum - 1].tf = tiles[i, j].obj.transform;
+                    coin[coinNum - 1].pos = tiles[i, j].tf.position;
+                    coin[coinNum - 1].active = true;
+                    coin[coinNum - 1].parentTileNum = lastTileNum;
+                    coinNum--;
                 }
                 
                 

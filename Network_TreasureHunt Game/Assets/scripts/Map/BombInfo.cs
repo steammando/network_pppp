@@ -19,7 +19,7 @@ public class BombInfo : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            Debug.Log("충돌");
+            Debug.Log("폭탄 받아라!!!");
             col.gameObject.GetComponent<PlayerMove>().Have_Damage(damage);
             gameObject.SetActive(false);
             Destroy(gameObject);

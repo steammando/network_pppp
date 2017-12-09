@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Player : MonoBehaviour {
 
     public GameObject knife;
     public GameObject effect;
-    
+    public Image healthBar;
     private Rigidbody2D rb2d;
     private Animator anim;
 
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour {
         {
            
             health -= _d;
-            
+            healthBar.fillAmount = health / 100;
             Debug.Log("HP : " + health);
             if (health <= 0)
             {
@@ -162,7 +162,7 @@ public class Player : MonoBehaviour {
             curPos = state.air;
             activeBool = true;
             
-            rb2d.AddForce(new Vector3(0, 180f, 0));
+            rb2d.AddForce(new Vector3(0, 220f, 0));
         }
         if(Input.GetKey(KeyCode.D) && curPos==state.ground)
         {
