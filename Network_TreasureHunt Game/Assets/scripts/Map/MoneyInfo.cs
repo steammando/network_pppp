@@ -19,8 +19,9 @@ public class MoneyInfo : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            Debug.Log("돈 획득");
+            Debug.Log("돈이다!");
             col.gameObject.GetComponent<PlayerMove>().Earn_Money(money);
+            SoundManager.soundManager.PlayCoinGetSound();
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
