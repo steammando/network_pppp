@@ -12,6 +12,8 @@ public class StageClear : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         clear = false;
+
+        goalObj = GameObject.FindGameObjectsWithTag("Enemy");
 	}
 	
 	// Update is called once per frame

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BallSetting : MonoBehaviour {
-    public Queue<GameObject> ballSet;
+    public Queue<GameObject> ballSet = new Queue<GameObject>();
     public GameObject[] Item;
     public Transform catapult;
 
@@ -12,11 +12,14 @@ public class BallSetting : MonoBehaviour {
     private float timeSpan = 2.5f;
     private bool loadingBall = false;
 
-    void Start () {
-        ballSet = new Queue<GameObject>();
-
+    void Awake()
+    {
         ballSet.Enqueue(Item[2]);
         ballSet.Enqueue(Item[1]);
+    }
+
+    void Start () {
+
 	}
 	
 	void Update () {

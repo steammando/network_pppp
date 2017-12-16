@@ -55,6 +55,7 @@ public class Drag : MonoBehaviour {
                 Destroy(spring);
                 clikOnce = true;
                 GetComponent<Rigidbody2D>().velocity = prevVelocity;
+                GetComponent<Rigidbody2D>().mass = 2f;
             }
         }
         else
