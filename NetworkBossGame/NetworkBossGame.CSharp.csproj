@@ -87,6 +87,8 @@
     <Compile Include="Assets\Script\Knife.cs" />
     <Compile Include="Assets\Script\Lazer.cs" />
     <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\SocketClient.cs" />
+    <Compile Include="Assets\Script\SocketCon.cs" />
     <Compile Include="Assets\Script\StageManager.cs" />
     <Compile Include="Assets\Script\TangnamBall.cs" />
     <Compile Include="Assets\Script\Thone.cs" />

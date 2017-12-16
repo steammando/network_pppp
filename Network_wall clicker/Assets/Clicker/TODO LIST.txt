@@ -1,5 +1,0 @@
-ClickerManager 게임 승패처리
-
-Player 공격 효과
-
-Wall 벽 파괴 효과
