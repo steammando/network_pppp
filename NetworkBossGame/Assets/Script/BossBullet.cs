@@ -83,7 +83,7 @@ public class BossBullet : MonoBehaviour
              yield return new WaitForSeconds(0.1f);
         }
        
-        GameManager.instance.boss.patternBoolean[0] = true;
+        //GameManager.instance.boss.patternBoolean[0] = true;
         GameManager.instance.boss.GetComponent<Animator>().SetTrigger("Idle");
         yield return new WaitForSeconds(4f);
         bulletCoolDown = true;

@@ -27,8 +27,8 @@ public class SocketCon : MonoBehaviour
     void Start()
     {
         m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 10000);
-        m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 10000);
+        m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 100000);
+        m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 100000);
         boss = GameManager.instance.boss;
         try
         {
@@ -70,6 +70,7 @@ public class SocketCon : MonoBehaviour
             thread = new Thread(RunThread);
             thread.Start();
         }
+        StartCoroutine("SocketRead_Pattern");
     }
     
     void Update()
@@ -112,32 +113,54 @@ public class SocketCon : MonoBehaviour
             Debug.Log("SocketSendError "+e);
         }
     }
+
+    IEnumerator SocketRead_Pattern()
+    {
+        while (true)
+        {
+            sendToServer("VOTENM_100");
+            yield return new WaitForSeconds(0.1f);
+            sendToServer("VOTELST_100_1_RAGE");
+            yield return new WaitForSeconds(0.1f);
+            sendToServer("VOTELST_100_2_RAZER");
+            yield return new WaitForSeconds(0.1f);
+            sendToServer("VOTELST_100_3_PUNCH");
+            yield return new WaitForSeconds(0.1f);
+            sendToServer("VOTELED_100");
+
+            yield return new WaitForSeconds(11f);
+        }
+    }
+
     void RunThread()
     {
         Debug.Log("Thread Run_ nou");
-        
+        int n = 0;
         while(true)
         {
-            Debug.Log("HelloWorld?");
+            Array.Clear(Receivebyte, 0, Receivebyte.Length);
             try
             {
-                ReceiveString = "";
                 //Debug.Log("is Null? " + ReceiveString);
                 m_Socket.Receive(Receivebyte);
                 ReceiveString = Encoding.Default.GetString(Receivebyte);
                 string []temp = ReceiveString.Split('_');
                 ReceivedataLength = Encoding.Default.GetByteCount(ReceiveString.ToString());
-                
-                Debug.Log(temp[0]);
-                Debug.Log("Length "+temp[0].Length);
+
                 if (String.Equals(temp[0], "Vote"))
                 {
-                    boss.ThornStab();
+                    Debug.Log(temp[0]);
+                    boss.PatternValid(n);
+                    n++;
+                    if (n >= 3)
+                        n = 0;
                 }
+                temp = null;
             }
             catch (SocketException e)
             {
                 Debug.Log("SocketError " + e);
+                thread.Abort();
             }
 
         }

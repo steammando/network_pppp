@@ -24,6 +24,8 @@ public class Boss : MonoBehaviour
     private BossBullet bulletManager;
     private Thone thoneManager;
     bool direction;
+    public Queue<int> patternQueue;
+    public int nextPattern;
     // Use this for initialization
     void Start()
     {
@@ -41,6 +43,7 @@ public class Boss : MonoBehaviour
         for (int i = 0; i < 5; i++)
             patternBoolean[i] = false;
         StartCoroutine("DropThorn");
+        nextPattern = -1;
         //StartCoroutine("ServerMessage");
     }
 
@@ -48,29 +51,33 @@ public class Boss : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha7))
-            soc.sendToServer("vote");
+            soc.sendToServer("Vote_");
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss")|| anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged"))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && patternBoolean[0])
+            if (patternBoolean[0])
             {
+                patternBoolean[0] = false;
                 StartCoroutine("ShootBullet");
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && patternBoolean[1])
+            if (patternBoolean[1])
             {
+                patternBoolean[1] = false;
                 StartCoroutine("ReadyBeam");
 
             }
-            if(Input.GetKeyDown(KeyCode.Alpha3)&&patternBoolean[2])
+            if(patternBoolean[2])
             {
+                patternBoolean[2] = false;
                 rightFist.GetComponent<Fist>().bump();
             }
         }
         if (patternBoolean[3])
         {
+            patternBoolean[3] = false;
             //soc.sendToServer("Thorn");
             thoneManager.stab();
         }
-        if(Input.GetKeyDown(KeyCode.Alpha5)&&patternBoolean[4])
+        if(patternBoolean[4])
         {
             Vector3 Ppos = GameManager.instance.player.transform.position;
             patternBoolean[4] = false;
@@ -110,9 +117,11 @@ public class Boss : MonoBehaviour
             Debug.Log("is NULL...");
         Instantiate(thorn_icile, position, Quaternion.identity);
     }
-    public void ThornStab()
+    public void PatternValid(int patternNum)
     {
-        patternBoolean[3] = true;
+        //Debug.Log(patternNum);
+        //patternQueue.Enqueue(patternNum);
+        patternBoolean[patternNum] = true;
         //thoneManager.stab();
     }
     IEnumerator ServerMessage()

@@ -94,7 +94,7 @@ public class Fist : MonoBehaviour
     {
         if (_col.CompareTag("MainFloor")&&!isLeft)
         {
-            GameManager.instance.boss.patternBoolean[2] = true;
+            //GameManager.instance.boss.patternBoolean[2] = true;
             anim.ResetTrigger("Bump");
             anim.SetTrigger("Idle");
         }

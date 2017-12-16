@@ -46,7 +46,7 @@ public class BossPet : MonoBehaviour {
             if (times == 2)
             {
                 StartCoroutine("DeadPet");
-                GameManager.instance.boss.patternBoolean[4] = true;
+                //GameManager.instance.boss.patternBoolean[4] = true;
             }
         }
     }

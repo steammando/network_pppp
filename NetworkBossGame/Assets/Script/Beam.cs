@@ -61,7 +61,7 @@ public class Beam : MonoBehaviour {
         sr.color = color;
         anim.ResetTrigger("Shoot");
         anim.SetTrigger("Idle");
-        GameManager.instance.boss.patternBoolean[1] = true;
+        //GameManager.instance.boss.patternBoolean[1] = true;
         GameManager.instance.boss.GetComponent<Animator>().SetTrigger("Idle");
         yield return null;
     }
