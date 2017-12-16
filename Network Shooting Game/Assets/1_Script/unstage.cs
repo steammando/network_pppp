@@ -13,6 +13,6 @@ public class unstage : MonoBehaviour {
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            SceneManager.LoadScene("Map");
+            SceneManager.LoadScene("Test");
     }
 }

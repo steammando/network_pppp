@@ -9,6 +9,7 @@ public class Explosion : MonoBehaviour
     public float explosionUplift = 200f;
     public GameObject effect;
 
+    private AudioClip expS;
     private Rigidbody2D bombRigidbody;
 
     void Awake()
@@ -16,22 +17,21 @@ public class Explosion : MonoBehaviour
         bombRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
 
         if (!bombRigidbody.isKinematic)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(1))
             {
                 Baam();
-                // add explosion particle
+                //explosion particle
                 Instantiate(effect, transform.position, Quaternion.identity);
-                Destroy(this.gameObject);
+                GetComponent<AudioSource>().Play();
+                GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<Collider2D>().enabled = false;
+                //Destroy(this.gameObject);
+                StartCoroutine(DestoyThis(2.0f));
             }
         }
     }
@@ -47,5 +47,9 @@ public class Explosion : MonoBehaviour
         }
     }
 
-
+    IEnumerator DestoyThis(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(this.gameObject);
+    }
 }

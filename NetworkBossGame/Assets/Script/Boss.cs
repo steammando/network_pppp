@@ -1,20 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Boss : MonoBehaviour
 {
 
     public GameObject thorn_icile;
-    public bool[] patternBoolean;
+    public GameObject pet;
+    
 
-    private int health;
+    public bool[] patternBoolean;
+    public Image healthBar;
+
+    private SocketCon soc;
+    private GameObject obj_pet;
+    private float health;
+    private float fullHealth;
     private float moveSpeed = 10;
     private Rigidbody2D rb2d;
     private Animator anim;
     private bool activeBool;
     private GameObject rightFist;
     private BossBullet bulletManager;
+    private Thone thoneManager;
     bool direction;
     // Use this for initialization
     void Start()
@@ -22,18 +30,25 @@ public class Boss : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         bulletManager = FindObjectOfType<BossBullet>();
+        thoneManager = FindObjectOfType<Thone>();
+        soc = FindObjectOfType<SocketCon>();
         rightFist = GameObject.FindGameObjectWithTag("RightFist");
+        fullHealth = 1000;
+        health = 1000;
         direction = true;
         activeBool = true;
-        patternBoolean = new bool[3];
-        for (int i = 0; i < 3; i++)
-            patternBoolean[i] = true;
+        patternBoolean = new bool[5];
+        for (int i = 0; i < 5; i++)
+            patternBoolean[i] = false;
         StartCoroutine("DropThorn");
+        //StartCoroutine("ServerMessage");
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+            soc.sendToServer("vote");
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss")|| anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged"))
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && patternBoolean[0])
@@ -50,6 +65,30 @@ public class Boss : MonoBehaviour
                 rightFist.GetComponent<Fist>().bump();
             }
         }
+        if (patternBoolean[3])
+        {
+            //soc.sendToServer("Thorn");
+            thoneManager.stab();
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha5)&&patternBoolean[4])
+        {
+            Vector3 Ppos = GameManager.instance.player.transform.position;
+            patternBoolean[4] = false;
+            if (Ppos.x < 0)
+            {
+                Ppos.x = 10;
+                Ppos.y -= 1f;
+                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
+                obj_pet.GetComponent<BossPet>().run(-1);
+            }
+            else
+            {
+                Ppos.x = -10;
+                Ppos.y -= 1f;
+                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
+                obj_pet.GetComponent<BossPet>().run(1);
+            }
+        }
     }
 
 
@@ -57,7 +96,6 @@ public class Boss : MonoBehaviour
     {
         if (_col.tag == "UserBullet")
         {
-            //Debug.Log("AAA");
             anim.SetTrigger("Damaged");
             StartCoroutine("Damaged");
         }
@@ -71,6 +109,23 @@ public class Boss : MonoBehaviour
         if (thorn_icile == null)
             Debug.Log("is NULL...");
         Instantiate(thorn_icile, position, Quaternion.identity);
+    }
+    public void ThornStab()
+    {
+        patternBoolean[3] = true;
+        //thoneManager.stab();
+    }
+    IEnumerator ServerMessage()
+    {
+        string rcvData;
+        while (health>0)
+        {
+            rcvData = soc.receiveFromServer();
+
+            Debug.Log(rcvData);
+
+            yield return new WaitForSeconds(0.5f);
+        }
     }
     IEnumerator ShootBullet()
     {
@@ -107,6 +162,8 @@ public class Boss : MonoBehaviour
     }
     IEnumerator Damaged()
     {
+        health -= 10;
+        healthBar.fillAmount = health / fullHealth;
         while (true)
         {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)

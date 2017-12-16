@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
     public Boss boss;
     public Player player;
     public Beam beam;
+    public GameObject text;
     public int stage;
+    private bool gameOver;
     // Use this for initialization
     public static GameManager instance = null;
     void Awake()
@@ -19,11 +21,12 @@ public class GameManager : MonoBehaviour {
 
         else if (instance != this)
             Destroy(gameObject);
-
+        gameOver = false;
         //DontDestroyOnLoad(gameObject);
         GameDifficult = 1;
         stage = 1;
         boss = GameObject.FindObjectOfType<Boss>();
+        text = GameObject.Find("UI_Canvas");
         player = GameObject.FindObjectOfType<Player>();
         beam = GameObject.FindObjectOfType<Beam>();
     }
@@ -51,11 +54,14 @@ public class GameManager : MonoBehaviour {
     }
     public void GameOver()
     {
-        Debug.Log("GameOver");
+        text.transform.FindChild("Canvas").gameObject.SetActive(true);
+        gameOver = true;
+        
     }
     public void loadNextScene()
     {
-        
+        if(gameOver)
+            SceneManager.LoadScene("GameOver");
     }
     public int getDifficult()
     {

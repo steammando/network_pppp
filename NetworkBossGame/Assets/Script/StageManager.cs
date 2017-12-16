@@ -18,4 +18,8 @@ public class StageManager : MonoBehaviour {
     {
         SceneManager.LoadScene("Test");
     }
+    public void Re()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

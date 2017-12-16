@@ -9,6 +9,8 @@ public class KillObject : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Damege")
             killPoint--;
+        if (coll.gameObject.tag == "Ball")
+            Kill();
 
         if(killPoint <= 0)
         {
