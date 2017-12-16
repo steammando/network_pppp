@@ -8,8 +8,11 @@ public class Boss : MonoBehaviour
     public GameObject thorn_icile;
     public GameObject pet;
     
+
     public bool[] patternBoolean;
     public Image healthBar;
+
+    private SocketCon soc;
     private GameObject obj_pet;
     private float health;
     private float fullHealth;
@@ -28,7 +31,7 @@ public class Boss : MonoBehaviour
         anim = GetComponent<Animator>();
         bulletManager = FindObjectOfType<BossBullet>();
         thoneManager = FindObjectOfType<Thone>();
-
+        soc = FindObjectOfType<SocketCon>();
         rightFist = GameObject.FindGameObjectWithTag("RightFist");
         fullHealth = 1000;
         health = 1000;
@@ -36,13 +39,16 @@ public class Boss : MonoBehaviour
         activeBool = true;
         patternBoolean = new bool[5];
         for (int i = 0; i < 5; i++)
-            patternBoolean[i] = true;
+            patternBoolean[i] = false;
         StartCoroutine("DropThorn");
+        //StartCoroutine("ServerMessage");
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+            soc.sendToServer("vote");
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss")|| anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged"))
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && patternBoolean[0])
@@ -59,8 +65,9 @@ public class Boss : MonoBehaviour
                 rightFist.GetComponent<Fist>().bump();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && patternBoolean[3])
+        if (patternBoolean[3])
         {
+            //soc.sendToServer("Thorn");
             thoneManager.stab();
         }
         if(Input.GetKeyDown(KeyCode.Alpha5)&&patternBoolean[4])
@@ -89,7 +96,6 @@ public class Boss : MonoBehaviour
     {
         if (_col.tag == "UserBullet")
         {
-            //Debug.Log("AAA");
             anim.SetTrigger("Damaged");
             StartCoroutine("Damaged");
         }
@@ -103,6 +109,23 @@ public class Boss : MonoBehaviour
         if (thorn_icile == null)
             Debug.Log("is NULL...");
         Instantiate(thorn_icile, position, Quaternion.identity);
+    }
+    public void ThornStab()
+    {
+        patternBoolean[3] = true;
+        //thoneManager.stab();
+    }
+    IEnumerator ServerMessage()
+    {
+        string rcvData;
+        while (health>0)
+        {
+            rcvData = soc.receiveFromServer();
+
+            Debug.Log(rcvData);
+
+            yield return new WaitForSeconds(0.5f);
+        }
     }
     IEnumerator ShootBullet()
     {

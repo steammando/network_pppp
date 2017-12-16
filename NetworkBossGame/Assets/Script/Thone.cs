@@ -59,7 +59,7 @@ public class Thone : MonoBehaviour {
             yield return new WaitForSeconds(0.03f);
         }
         Destroy(thoneObject);
-        GameManager.instance.boss.patternBoolean[3] = true;
+        //GameManager.instance.boss.patternBoolean[3] = true;
         atk = false;
         tempColor.a = 0f;
         sr.color = tempColor;
