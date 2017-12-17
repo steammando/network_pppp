@@ -38,13 +38,19 @@ client.on('chat', function(channel, user, message, self) {
 			client.action(channelName, "!노예야\n!투표방법\n");
 	}
 	
+	/*채팅 투표 입력*/
 	if(message[0] == '!'){
 		var vmsg = message.substring(1).split(" ");
-		
-		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null){
+		//일반 투표
+		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null && !isNaN(vmsg)){
 			votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])] += 1;
 			
 			client.action(channelName, votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])]);
+		}
+		//키워드 투표
+		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null){
+			client.action(channelName, parseInt(vmsg[0]) + "입력됨");
+			//socket write this
 		}
 	}
 });
@@ -52,8 +58,6 @@ client.on('chat', function(channel, user, message, self) {
 client.on('connected', function(address, port) {
 	client.action(channelName, "널구의 하수인이 등록되었습니다.")
 });
-
-
 
 
 ///////////////////////VOTE////////////////////////
@@ -82,7 +86,7 @@ function Vote(str){
 	
 	//get vote list
 	Vote.prototype.getList = function(){
-		var str = "투표키 : " + this.prikey + "	" +this.voteName.toString();
+		var str = "#" + this.prikey + "	" +this.voteName.toString();
 		var temp;
 		for (temp in this.list){
 			str += "	";
@@ -91,6 +95,22 @@ function Vote(str){
 		return str;
 	}
 }
+//keyword vote
+function KWVote(str){
+	this.prikey;
+	this.voteName;
+	this.voteTime = parseFloat(str);
+	this.keyword;
+	
+	KWVote.prototype.getList = function(){
+		var str = "#"+ this.prikey + " ";
+		
+		str += "	"+this.keyword+"를 입력하세요!!!";
+		
+		return str;
+	}
+}
+
 // Vote object
 var votes = [];
 // vote timer
@@ -102,6 +122,14 @@ function voteTimeOver(votepri, socket){
 	
 	socket.write("VOTEEND_"+votepri+"_"+result);
 	console.log("VOTEEND_"+votepri+"_"+result);
+	
+	client.action(channelName, "#"+votepri+"  투표종료!");
+	delete votes[votepri];
+}
+
+function keyTimeOver(votepri, socket){
+	socket.write("VOTEEND_"+votepri);
+	console.log("VOTEEND_"+votepri);
 	
 	client.action(channelName, "#"+votepri+"  투표종료!");
 	delete votes[votepri];
@@ -129,6 +157,13 @@ net.createServer(function (socket) {
 				if(votes[pri] == undefined || votes[pri] == null){
 					client.action(channelName, "새로운 투표가 설정중입니다");
 					votes[pri] = new Vote(sptdata[3]);
+					votes[pri].prikey = pri;
+				}
+			}
+			else if(parseInt(sptdata[2]) === 2){
+				if(votes[pri] == undefined || votes[pri] == null){
+					client.action(channelName, "새로운 투표가 설정중입니다");
+					votes[pri] = new KWVote(sptdata[3]);
 					votes[pri].prikey = pri;
 				}
 			}
@@ -161,6 +196,19 @@ net.createServer(function (socket) {
 				}
 			}
 		}
+		//투표 키워드 받기
+		if(sptdata != null && sptdata[0] === "VOTEKEY"){
+			console.log('voteKEY 옴');
+			var pri = parseInt(sptdata[1]);
+			
+			//client.action(channelName, "새로운 투표가 등록되었습니다.");
+			
+			if(votes[pri] != undefined){
+				if(votes[pri].keyword == undefined || votes[pri].keyword == null){
+					votes[pri].keyword = sptdata[2];
+				}
+			}
+		}
 		//투표리스트 끝 투표 시작
 		if(sptdata != null && sptdata[0] === "VOTELED"){
 			console.log('voteLED 옴');
@@ -174,6 +222,22 @@ net.createServer(function (socket) {
 			}
 			//투표 타이머 시작
 			var asd = setTimeout(voteTimeOver, votes[pri].voteTime * 1000, pri,socket);
+			
+			//clearTimeout(asd);
+		}
+		//키워드 투표 시작
+		if(sptdata != null && sptdata[0] === "VOTEKS"){
+			console.log('voteKS 옴');
+			var pri = parseInt(sptdata[1]);
+			
+			//client.action(channelName, "새로운 투표가 등록되었습니다.");
+			
+			if(votes[pri] != undefined){
+				client.action(channelName, "키워드 입력이 시작되었습니다.");
+				client.action(channelName, votes[pri].getList());
+			}
+			//투표 타이머 시작
+			var asd = setTimeout(keyTimeOver, votes[pri].voteTime * 1000, pri,socket);
 			
 			//clearTimeout(asd);
 		}
