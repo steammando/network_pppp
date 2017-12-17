@@ -1,0 +1,21 @@
+{
+  "name": "null9bot",
+  "version": "1.0.0",
+  "description": "twitch chat bot for network project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^2.0.4",
+    "tmi.js": "^1.2.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "twitch",
+    "chat",
+    "bot"
+  ]
+}
