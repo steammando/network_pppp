@@ -26,12 +26,16 @@ client.connect();
 
 /*get chatting message */
 client.on('chat', function(channel, user, message, self) {
-	if(message === "!노예야") {
+	if(message === "!노예야" && user.username === "neolgu71") {
 		client.action(channelName, "네 주인님");
+	}
+	else if(message === "!노예야"){
+		client.action(channelName, "너 주인님 아니야.");
+		
 	}
 	
 	if(message === "!투표방법"){
-			client.action(channelName, "!투표키 투표번호 를 입력하세요");
+			client.action(channelName, "!투표키 투표번호/키워드 를 입력하세요");
 	}
 	
 	if(message === "!명령어"){
