@@ -43,7 +43,6 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-       // Debug.Log(curPos);
         direction = gameObject.transform.localScale.x;
         if (rb2d.velocity.y < 0)
         {
@@ -82,7 +81,6 @@ public class Player : MonoBehaviour {
            
             health -= _d;
             healthBar.fillAmount = health / 100;
-            Debug.Log("HP : " + health);
             if (health <= 0)
             {
                 keyActivation = false;
@@ -113,11 +111,17 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         Destroy(effectBomb);
     }
+    /* MakeInv(Corutine) : it is a corutine that creates invicibility when hit
+     * input: none_
+     * output: none_
+     ******************************************************************************/
     IEnumerator MakeInv()
     {
         invincibility = true;
+
         for(int i=0;i<7;i++)
         {
+            //transparent -> 0 ~255.
             color = gameObject.GetComponent<SpriteRenderer>().color;
             if (color.a == 255f)
                 color.a = 0f;
@@ -233,7 +237,6 @@ public class Player : MonoBehaviour {
     {
         if (_col.gameObject.tag == "Floor"||_col.gameObject.tag=="MainFloor")
         {
-            Debug.Log("Endl!");
             
             StartCoroutine("setActive");
             //moveVector.x = 0f;
@@ -256,7 +259,6 @@ public class Player : MonoBehaviour {
     IEnumerator setActive()
     {
         keyActivation = false;
-        Debug.Log("Cant!");
         yield return new WaitForSeconds(0.05f);
         keyActivation = true;
         yield return null;

@@ -92,6 +92,7 @@
     <Compile Include="Assets\Script\StageManager.cs" />
     <Compile Include="Assets\Script\TangnamBall.cs" />
     <Compile Include="Assets\Script\Thone.cs" />
+    <Compile Include="Assets\Script\VoteManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

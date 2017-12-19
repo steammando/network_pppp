@@ -4,47 +4,63 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Boss : MonoBehaviour
 {
-
-    public GameObject thorn_icile;
-    public GameObject pet;
-    
-
-    public bool[] patternBoolean;
     public Image healthBar;
 
-    private SocketCon soc;
-    private GameObject obj_pet;
+    //pattern bool --> each boolean value is mapping at boss's pattern
+    public bool[] patternBoolean;
+    public int nextPattern;
+
+    //variable of boss...
     private float health;
     private float fullHealth;
-    private float moveSpeed = 10;
+
+    //TCP Sockt. Connection
+    private SocketCon soc;
+    private GameObject obj_pet;
+
     private Rigidbody2D rb2d;
     private Animator anim;
-    private bool activeBool;
+
+    //Pattern of boss
+    public GameObject thorn_icile;
     private GameObject rightFist;
     private BossBullet bulletManager;
-    private Thone thoneManager;
-    bool direction;
-    public Queue<int> patternQueue;
-    public int nextPattern;
+    private Thone thornManager;
+    public GameObject pet;
+   
+    //Moving variables --> __now not used__
+    //Boss moving direction 
+    private bool direction;//
+    //Boss move speed //
+    private float moveSpeed = 10;//
+    //Boss moving? yes:no;
+    private bool activeBool;//
+    
+
     // Use this for initialization
     void Start()
     {
+        //___initialize___
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         bulletManager = FindObjectOfType<BossBullet>();
-        thoneManager = FindObjectOfType<Thone>();
+        thornManager = FindObjectOfType<Thone>();
         soc = FindObjectOfType<SocketCon>();
         rightFist = GameObject.FindGameObjectWithTag("RightFist");
+        //health is set...
         fullHealth = 1000;
         health = 1000;
+
         direction = true;
         activeBool = true;
         patternBoolean = new bool[5];
         for (int i = 0; i < 5; i++)
             patternBoolean[i] = false;
+        //start corutine --> basic pattern...(while(true))
         StartCoroutine("DropThorn");
+        StartCoroutine("BotThorn");
+        StartCoroutine("VoteProcess");
         nextPattern = -1;
-        //StartCoroutine("ServerMessage");
     }
 
     // Update is called once per frame
@@ -71,12 +87,6 @@ public class Boss : MonoBehaviour
                 rightFist.GetComponent<Fist>().bump();
             }
         }
-        if (patternBoolean[3])
-        {
-            patternBoolean[3] = false;
-            //soc.sendToServer("Thorn");
-            thoneManager.stab();
-        }
         if(patternBoolean[4])
         {
             Vector3 Ppos = GameManager.instance.player.transform.position;
@@ -98,25 +108,26 @@ public class Boss : MonoBehaviour
         }
     }
 
-
+    //when collision with object...
     void OnTriggerEnter2D(Collider2D _col)
     {
+        //if boss is collide with UserBullet...
         if (_col.tag == "UserBullet")
         {
+            //Damaged Animation start && corutine...
             anim.SetTrigger("Damaged");
             StartCoroutine("Damaged");
         }
     }
-
+    //drop thorn from top...
     void dropThorn()
     {
         Vector3 position = GameManager.instance.player.transform.position;
         position.y = 5f;
         position.x = position.x + Random.Range(-0.5f, 0.5f);
-        if (thorn_icile == null)
-            Debug.Log("is NULL...");
         Instantiate(thorn_icile, position, Quaternion.identity);
     }
+    //set pattern bool true --> active corresponding pattern...
     public void PatternValid(int patternNum)
     {
         //Debug.Log(patternNum);
@@ -124,6 +135,9 @@ public class Boss : MonoBehaviour
         patternBoolean[patternNum] = true;
         //thoneManager.stab();
     }
+
+    //got message from server.
+   
     IEnumerator ServerMessage()
     {
         string rcvData;
@@ -136,20 +150,54 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+
+    IEnumerator VoteProcess()
+    {
+        while (true)
+        {
+            if (health < 0)
+                break;
+
+            soc.sendToServer(VoteManager.instance.startVote(100, 1, 11));
+            yield return new WaitForSeconds(0.2f);
+            soc.sendToServer(VoteManager.instance.VoteEntry(100, 0, "Rage"));
+            yield return new WaitForSeconds(0.2f);
+            soc.sendToServer(VoteManager.instance.VoteEntry(100, 1, "Beam"));
+            yield return new WaitForSeconds(0.2f);
+            soc.sendToServer(VoteManager.instance.VoteEntry(100, 2, "Bump"));
+            yield return new WaitForSeconds(0.2f);
+            soc.sendToServer(VoteManager.instance.VoteEntry(100));
+            yield return new WaitForSeconds(11f);
+        }
+        yield return null;
+    }
+    //shoot bullet using bullet manager.
     IEnumerator ShootBullet()
     {
-        patternBoolean[0] = false;
+        patternBoolean[0] = false;//(if shoot bullet active...)
+        //set animation...
         anim.SetTrigger("BulletReady");
         yield return new WaitForSeconds(1f);
+        //shoot bullet --> bullet manager's function call.
         bulletManager.shootBullet();
         yield return null;
     }
+    //drop thorn pattern... --> loop(true)
     IEnumerator DropThorn()
     {
         while (true)
         {
             dropThorn();
+            yield return new WaitForSeconds(3f);
+        }
+    }
+    IEnumerator BotThorn()
+    {
+        while(true)
+        {
             yield return new WaitForSeconds(2f);
+            thornManager.stab();
+            yield return new WaitForSeconds(3f);
         }
     }
     IEnumerator ReadyBeam()
@@ -187,7 +235,6 @@ public class Boss : MonoBehaviour
     }
     IEnumerator move()
     {
-        Debug.Log("aa");
         activeBool = false;
         if (validInput_move())
         {
@@ -210,6 +257,7 @@ public class Boss : MonoBehaviour
             return false;
         return true;
     }
+    //set health of boss...
     public void setHealth(int difficult)
     {
         switch (difficult)
