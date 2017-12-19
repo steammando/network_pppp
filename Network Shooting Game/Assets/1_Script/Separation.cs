@@ -25,6 +25,7 @@ public class Separation : MonoBehaviour {
                 mid = Instantiate(mini, transform.position, Quaternion.identity);
                 down = Instantiate(mini, transform.position + new Vector3(-1, 0, 0), Quaternion.identity);
 
+                //separte ball set velocity(power) original velocity
                 up.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity;
                 mid.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity;
                 down.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity;

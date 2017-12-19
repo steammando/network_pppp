@@ -30,7 +30,7 @@ public class Explosion : MonoBehaviour
                 GetComponent<AudioSource>().Play();
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Collider2D>().enabled = false;
-                //Destroy(this.gameObject);
+
                 StartCoroutine(DestoyThis(2.0f));
             }
         }
@@ -39,10 +39,11 @@ public class Explosion : MonoBehaviour
     //add explosion force other
     void Baam()
     {
-        Collider2D[] aroundBombs = Physics2D.OverlapCircleAll(transform.position, explosionArea);
+        Collider2D[] aroundBombs = Physics2D.OverlapCircleAll(transform.position, explosionArea);//get object around boom
 
         foreach (Collider2D col in aroundBombs)
         {
+            //add force around boom
             if (col.GetComponent<Rigidbody2D>() != null)
                 Rigidbody2DExtension.AddExplosionForce(col.GetComponent<Rigidbody2D>(), explosionPower, transform.position, explosionArea, explosionUplift);
         }

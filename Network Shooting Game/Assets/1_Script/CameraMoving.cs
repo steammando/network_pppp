@@ -21,40 +21,43 @@ public class CameraMoving : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)//zoom in
+        //zoom in
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             Zoom(true);
         }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)//zoom out
+        //zoom out
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             Zoom(false);
         }
 
-        if (!ballclick)
-            if (Input.GetMouseButton(0))//if click ball don't move
+        if (!ballclick)//if click ball, don't move camera
+            if (Input.GetMouseButton(0))
             {
                 Moving();
             }
 
-        prevMouse = Input.mousePosition;
+        prevMouse = Input.mousePosition;//save current mouse position
     }
 
     //mouse move
     void Moving()
     {
-        Vector3 move = (Input.mousePosition - prevMouse) * 0.1f;
+        Vector3 move = (Input.mousePosition - prevMouse) * 0.1f; //calculate delta w of mouse position
 
-        self.transform.position = self.transform.position - move;
+        self.transform.position = self.transform.position - move;//move camera position
     }
+
     //mouse zoom
     void Zoom(bool inout)
     {
-        if (inout)
+        if (inout)//camera size up
         {
             if(self.orthographicSize < zoomMax)
             self.orthographicSize += zoomSpeed;
         }
-        else
+        else//camera size down
         {
             if (self.orthographicSize > zoomMin)
                 self.orthographicSize -= zoomSpeed;

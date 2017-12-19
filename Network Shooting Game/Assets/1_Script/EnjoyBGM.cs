@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnjoyBGM : MonoBehaviour {
     static EnjoyBGM my = null;
+    
     //start bgm until game end
 	void Awake()
     {

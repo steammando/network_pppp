@@ -20,7 +20,7 @@ public class Secret : MonoBehaviour {
         }
 	}
 
-    //launch rocket booooooooooooo!
+    //launch rocket booooooooooooong!
     void LaunchRocket()
     {
         foreach(GameObject go in rockets)
