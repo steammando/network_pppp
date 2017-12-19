@@ -19,6 +19,7 @@ public class Drag : MonoBehaviour {
     private Transform catapult;
     private Ray rayToMouse;
 
+    //seting first
     void Awake()
     {
         spring = GetComponent<SpringJoint2D>();
@@ -27,7 +28,7 @@ public class Drag : MonoBehaviour {
 
         cameraObj = GameObject.Find("Main Camera");
     }
-
+    //seting first
     void Start() {
         front = GameObject.Find("Catapult_1").GetComponent<LineRenderer>();
         back = GameObject.Find("Catapult_2").GetComponent<LineRenderer>();
@@ -44,10 +45,11 @@ public class Drag : MonoBehaviour {
     }
 
     void Update() {
-
+        //if click ball , dragging
         if (!clikOnce && clikedOn)
             Dragging();
 
+        //ball is launched
         if (spring != null)
         {
             if (!GetComponent<Rigidbody2D>().isKinematic && prevVelocity.sqrMagnitude > GetComponent<Rigidbody2D>().velocity.sqrMagnitude)
@@ -71,6 +73,7 @@ public class Drag : MonoBehaviour {
 
         prevVelocity = GetComponent<Rigidbody2D>().velocity;
 
+        //band update
         if (front != null)
             LineRendererUpdate();
 
@@ -91,6 +94,7 @@ public class Drag : MonoBehaviour {
         cameraObj.GetComponent<CameraMoving>().ballclick = true;
     }
 
+    //drag ball
     void Dragging()
     {
         Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -105,7 +109,7 @@ public class Drag : MonoBehaviour {
         mouseWorldPoint.z = 0f;
         transform.position = mouseWorldPoint;
     }
-
+    //band rendering set up
     void LineRendererSetup()
     {
         front.SetPosition(0, front.transform.position);
@@ -117,7 +121,7 @@ public class Drag : MonoBehaviour {
         front.sortingOrder = 3;
         back.sortingOrder = 1;
     }
-
+    //band rendering update
     void LineRendererUpdate()
     {
         Vector2 catapultToProjectile = transform.position - front.transform.position;

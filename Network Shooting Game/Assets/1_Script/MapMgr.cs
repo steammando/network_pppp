@@ -9,6 +9,7 @@ public class MapMgr : MonoBehaviour
 
     public static MapMgr self;
 
+    //map(stage) manager
     void Awake()
     {
         if (self == null)

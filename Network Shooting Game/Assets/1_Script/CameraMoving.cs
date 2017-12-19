@@ -31,7 +31,7 @@ public class CameraMoving : MonoBehaviour {
         }
 
         if (!ballclick)
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0))//if click ball don't move
             {
                 Moving();
             }
@@ -39,13 +39,14 @@ public class CameraMoving : MonoBehaviour {
         prevMouse = Input.mousePosition;
     }
 
+    //mouse move
     void Moving()
     {
         Vector3 move = (Input.mousePosition - prevMouse) * 0.1f;
 
         self.transform.position = self.transform.position - move;
     }
-
+    //mouse zoom
     void Zoom(bool inout)
     {
         if (inout)

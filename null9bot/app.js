@@ -1,8 +1,10 @@
 var tmi = require('tmi.js');
 
+/*if you change channel and bot Name, set this values*/
 var channelName = "neolgu71";
 var botName = "NULL9_BOT";
 var botpassword = "oauth:t7e96i6xmws5318f9jqbjatfq9kpf9"
+///////////////////////////////////////////////////////
 
 var options = {
 	options: {
@@ -22,16 +24,16 @@ var options = {
 var client = new tmi.client(options);
 client.connect();
 
-/*client.action("channel name", "message"); <-- send massage
+/*client.action("channel name", "message"); <-- send massage to chat
 
 /*get chatting message */
 client.on('chat', function(channel, user, message, self) {
-	if(message === "!노예야" && user.username === "neolgu71") {
+	/////////////instructing word///////////////
+	if(message === "!봇아" && user.username === "neolgu71") {
 		client.action(channelName, "네 주인님");
 	}
 	else if(message === "!노예야"){
 		client.action(channelName, "너 주인님 아니야.");
-		
 	}
 	
 	if(message === "!투표방법"){
@@ -39,22 +41,24 @@ client.on('chat', function(channel, user, message, self) {
 	}
 	
 	if(message === "!명령어"){
-			client.action(channelName, "!노예야\n!투표방법\n");
+			client.action(channelName, "!노예야	!투표방법	!투표키 투표번호/키워드");
 	}
 	
-	/*채팅 투표 입력*/
+	/*chatting to vote*/
 	if(message[0] == '!'){
 		var vmsg = message.substring(1).split(" ");
-		//일반 투표
+		//vote
 		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null && !isNaN(vmsg)){
 			votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])] += 1;
 			
-			client.action(channelName, votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])]);
+			//client.action(channelName, votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])]);
 		}
-		//키워드 투표
+		//keyword vote 
 		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null){
 			client.action(channelName, parseInt(vmsg[0]) + "입력됨");
-			//socket write this
+			if(socket_ != undefined){
+				socket_.write("VOTEBAK_"+vmsg[0]);
+			}
 		}
 	}
 });
@@ -88,7 +92,7 @@ function Vote(str){
 		return maxIndex;
 	}
 	
-	//get vote list
+	//get vote information
 	Vote.prototype.getList = function(){
 		var str = "#" + this.prikey + "	" +this.voteName.toString();
 		var temp;
@@ -106,6 +110,7 @@ function KWVote(str){
 	this.voteTime = parseFloat(str);
 	this.keyword;
 	
+	//get vote information
 	KWVote.prototype.getList = function(){
 		var str = "#"+ this.prikey + " ";
 		
@@ -122,37 +127,42 @@ var timers = [];
 
 //vote time over
 function voteTimeOver(votepri, socket){
-	var result = votes[votepri].getResult();
+	var result = votes[votepri].getResult();//get result
 	
-	socket.write("VOTEEND_"+votepri+"_"+result);
+	socket.write("VOTEEND_"+votepri+"_"+result);//send result to game
 	console.log("VOTEEND_"+votepri+"_"+result);
 	
-	client.action(channelName, "#"+votepri+"  투표종료!");
+	client.action(channelName, "#"+votepri+"  투표종료!");//chat vote is end.
 	delete votes[votepri];
 }
-
+//keyword vote time over 
 function keyTimeOver(votepri, socket){
-	socket.write("VOTEEND_"+votepri);
+	socket.write("VOTEEND_"+votepri);//send to game vote is end
 	console.log("VOTEEND_"+votepri);
 	
-	client.action(channelName, "#"+votepri+"  투표종료!");
+	client.action(channelName, "#"+votepri+"  투표종료!");//chat vote is end.
 	delete votes[votepri];
 }
 
 //////////////////////Socket with game/////////////////
 console.log('socket server run');
 
+//make server socket
 var net = require('net');
+
+var socket_;
 
 net.createServer(function (socket) {
 
 	socket.on('data', function (data) {
 		//console.log(data.toString('utf8'));//read from client
 		///////////////////////////////// vote check;
+		socket_ = socket;
+		
 		if(data != null)
 			var sptdata = data.toString('utf8').split("_");
 		
-		//투표 생성
+		//set vote and get primarykey, type, time
 		if(sptdata != null && sptdata[0] === "VOTESET"){
 			console.log('voteSET 옴');
 			var pri = parseInt(sptdata[1]);
@@ -172,12 +182,10 @@ net.createServer(function (socket) {
 				}
 			}
 		}
-		//투표 이름 설정
+		//set vote name
 		if(sptdata != null && sptdata[0] === "VOTENM"){
 			console.log('voteNM 옴');
 			var pri = parseInt(sptdata[1]);
-			
-			//client.action(channelName, "새로운 투표가 등록되었습니다.");
 			
 			if(votes[pri] != undefined){
 				if(votes[pri].voteName == undefined ||votes[pri].voteName == null){
@@ -185,13 +193,11 @@ net.createServer(function (socket) {
 				}
 			}
 		}
-		//투표 리스트 받기
+		//get and set vote list
 		if(sptdata != null && sptdata[0] === "VOTELST"){
 			console.log('voteLST 옴');
 			var pri = parseInt(sptdata[1]);
 			var lst = parseInt(sptdata[2]);
-			
-			//client.action(channelName, "새로운 투표가 등록되었습니다.");
 			
 			if(votes[pri] != undefined){
 				if(votes[pri].list[lst] == undefined || votes[pri].list[lst] == null){
@@ -200,12 +206,10 @@ net.createServer(function (socket) {
 				}
 			}
 		}
-		//투표 키워드 받기
+		//set vote keyword
 		if(sptdata != null && sptdata[0] === "VOTEKEY"){
 			console.log('voteKEY 옴');
 			var pri = parseInt(sptdata[1]);
-			
-			//client.action(channelName, "새로운 투표가 등록되었습니다.");
 			
 			if(votes[pri] != undefined){
 				if(votes[pri].keyword == undefined || votes[pri].keyword == null){
@@ -213,34 +217,30 @@ net.createServer(function (socket) {
 				}
 			}
 		}
-		//투표리스트 끝 투표 시작
+		//vote set end  and  vote start
 		if(sptdata != null && sptdata[0] === "VOTELED"){
 			console.log('voteLED 옴');
 			var pri = parseInt(sptdata[1]);
 			
-			//client.action(channelName, "새로운 투표가 등록되었습니다.");
-			
 			if(votes[pri] != undefined){
-				client.action(channelName, "투표가 시작되었습니다.");
-				client.action(channelName, votes[pri].getList());
+				client.action(channelName, "투표가 시작되었습니다.");//chat to channel vote start
+				client.action(channelName, votes[pri].getList());//chat to what vote
 			}
-			//투표 타이머 시작
+			//vote start until vote time
 			var asd = setTimeout(voteTimeOver, votes[pri].voteTime * 1000, pri,socket);
 			
 			//clearTimeout(asd);
 		}
-		//키워드 투표 시작
+		//keyword vote start
 		if(sptdata != null && sptdata[0] === "VOTEKS"){
 			console.log('voteKS 옴');
 			var pri = parseInt(sptdata[1]);
 			
-			//client.action(channelName, "새로운 투표가 등록되었습니다.");
-			
 			if(votes[pri] != undefined){
-				client.action(channelName, "키워드 입력이 시작되었습니다.");
+				client.action(channelName, "키워드 입력이 시작되었습니다.");//chat to channel keyword vote start
 				client.action(channelName, votes[pri].getList());
 			}
-			//투표 타이머 시작
+			//vote timer start
 			var asd = setTimeout(keyTimeOver, votes[pri].voteTime * 1000, pri,socket);
 			
 			//clearTimeout(asd);
@@ -249,7 +249,7 @@ net.createServer(function (socket) {
 		////////////////////////////////
 	//socket.write(data);//send to client
 });
-}).listen(8000, function() {
+}).listen(8000, function() {//open port 8000
 console.log('TCP Server Running ~!'); 
 });;
 

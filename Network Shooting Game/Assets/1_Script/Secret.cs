@@ -8,19 +8,19 @@ public class Secret : MonoBehaviour {
 
     public int secretNum;
 
-	// Use this for initialization
+    //secret num setting
 	void Start () {
         secretNum = Random.Range(0, hats.Length);
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        if(hats[secretNum].GetComponent<HatSelect>().check == true)
+        if(hats[secretNum].GetComponent<HatSelect>().check == true)//check hat is selected
         {
             LaunchRocket();
         }
 	}
 
+    //launch rocket booooooooooooo!
     void LaunchRocket()
     {
         foreach(GameObject go in rockets)

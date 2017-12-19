@@ -11,16 +11,16 @@ public class Separation : MonoBehaviour {
     private GameObject down;
     private Rigidbody2D my;
 
-	// Use this for initialization
 	void Start () {
         my = GetComponent<Rigidbody2D>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (!my.isKinematic)
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))//if click mouse right button
             {
+                //separate ball to 3 parts
+
                 up = Instantiate(mini, transform.position + new Vector3(1, 0, 0), Quaternion.identity);
                 mid = Instantiate(mini, transform.position, Quaternion.identity);
                 down = Instantiate(mini, transform.position + new Vector3(-1, 0, 0), Quaternion.identity);

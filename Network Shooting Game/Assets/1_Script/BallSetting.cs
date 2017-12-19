@@ -23,6 +23,7 @@ public class BallSetting : MonoBehaviour {
 	}
 	
 	void Update () {
+        //if queue has ball
         if (ballSet.Count > 0 && (ball == null || ball.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic))
         {
             ball = ballSet.Dequeue();
@@ -31,9 +32,10 @@ public class BallSetting : MonoBehaviour {
         if (loadingBall)
         {
             timeSpan += Time.deltaTime;
-
+            //wating time
             if(timeSpan >= setTime)
             {
+                //generate ball to catapult
                 ball = Instantiate(ball, catapult.transform.position, Quaternion.identity);
                 timeSpan = 0.0f;
                 loadingBall = false;
@@ -41,6 +43,7 @@ public class BallSetting : MonoBehaviour {
         }
 	}
 
+    //add ball in queue
     void AddBall(GameObject newBall)
     {
         ballSet.Enqueue(newBall);
