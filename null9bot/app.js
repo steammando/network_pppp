@@ -32,7 +32,7 @@ client.on('chat', function(channel, user, message, self) {
 	if(message === "!봇아" && user.username === "neolgu71") {
 		client.action(channelName, "네 주인님");
 	}
-	else if(message === "!노예야"){
+	else if(message === "!봇아"){
 		client.action(channelName, "너 주인님 아니야.");
 	}
 	
@@ -41,7 +41,7 @@ client.on('chat', function(channel, user, message, self) {
 	}
 	
 	if(message === "!명령어"){
-			client.action(channelName, "!노예야	!투표방법	!투표키 투표번호/키워드");
+			client.action(channelName, "!봇아	!투표방법	!투표키 투표번호/키워드");
 	}
 	
 	/*chatting to vote*/
