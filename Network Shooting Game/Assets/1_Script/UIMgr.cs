@@ -27,6 +27,7 @@ public class UIMgr : MonoBehaviour {
 
     public void OnClickExit()//game exit
     {
+        SocketCon.instance.endSocketCon();
         Application.Quit();
     }
 

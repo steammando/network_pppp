@@ -41,22 +41,22 @@ client.on('chat', function(channel, user, message, self) {
 	}
 	
 	if(message === "!명령어"){
-			client.action(channelName, "!봇아	!투표방법	!투표키 투표번호/키워드");
+			client.action(channelName, "!봇아    !투표방법    !투표키 투표번호/키워드");
 	}
 	
 	/*chatting to vote*/
 	if(message[0] == '!'){
 		var vmsg = message.substring(1).split(" ");
+		
 		//vote
-		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null && !isNaN(vmsg)){
+		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null && !isNaN(vmsg[1])){
 			votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])] += 1;
-			
-			//client.action(channelName, votes[parseInt(vmsg[0])].voteList[parseInt(vmsg[1])]);
 		}
+		
 		//keyword vote 
 		if(votes[parseInt(vmsg[0])] != undefined && votes[parseInt(vmsg[0])] != null){
-			client.action(channelName, parseInt(vmsg[0]) + "입력됨");
-			if(socket_ != undefined){
+			//client.action(channelName, parseInt(vmsg[0]) + "입력됨");
+			if(socket_ != undefined && socket_ != null){
 				socket_.write("VOTEBAK_"+vmsg[0]);
 			}
 		}
@@ -64,7 +64,7 @@ client.on('chat', function(channel, user, message, self) {
 });
 
 client.on('connected', function(address, port) {
-	client.action(channelName, "널구의 하수인이 등록되었습니다.")
+	client.action(channelName, "널구의 챗봇이 등록되었습니다.")
 });
 
 
@@ -79,10 +79,11 @@ function Vote(str){
 	
 	//get vote result
 	Vote.prototype.getResult = function(){
-		var max=0;
+		var max = -1;
 		var maxIndex;
 		
 		for (temp in this.voteList){
+			console.log(this.voteList[temp]);
 			if(max < this.voteList[temp]){
 				max = this.voteList[temp];
 				maxIndex = temp;
@@ -114,7 +115,7 @@ function KWVote(str){
 	KWVote.prototype.getList = function(){
 		var str = "#"+ this.prikey + " ";
 		
-		str += "	"+this.keyword+"를 입력하세요!!!";
+		str += "// "+this.keyword+"를 입력하세요!!!";
 		
 		return str;
 	}
@@ -153,7 +154,6 @@ var net = require('net');
 var socket_;
 
 net.createServer(function (socket) {
-
 	socket.on('data', function (data) {
 		//console.log(data.toString('utf8'));//read from client
 		///////////////////////////////// vote check;
@@ -201,7 +201,7 @@ net.createServer(function (socket) {
 			
 			if(votes[pri] != undefined){
 				if(votes[pri].list[lst] == undefined || votes[pri].list[lst] == null){
-					votes[pri].voteList[lst]=0;
+					votes[pri].voteList[lst] = 0;
 					votes[pri].list[lst]=sptdata[3];
 				}
 			}
@@ -241,6 +241,7 @@ net.createServer(function (socket) {
 				client.action(channelName, votes[pri].getList());
 			}
 			//vote timer start
+			
 			var asd = setTimeout(keyTimeOver, votes[pri].voteTime * 1000, pri,socket);
 			
 			//clearTimeout(asd);

@@ -51,9 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\1_Script\Awaker.cs" />
      <Compile Include="Assets\1_Script\BallSetting.cs" />
      <Compile Include="Assets\1_Script\CameraMoving.cs" />
      <Compile Include="Assets\1_Script\ClientNet.cs" />
+     <Compile Include="Assets\1_Script\DontKill.cs" />
      <Compile Include="Assets\1_Script\Drag.cs" />
      <Compile Include="Assets\1_Script\EnjoyBGM.cs" />
      <Compile Include="Assets\1_Script\Explosion.cs" />
@@ -64,9 +66,12 @@
      <Compile Include="Assets\1_Script\Rigidbody2DExtension.cs" />
      <Compile Include="Assets\1_Script\Secret.cs" />
      <Compile Include="Assets\1_Script\Separation.cs" />
+     <Compile Include="Assets\1_Script\SocketCon.cs" />
      <Compile Include="Assets\1_Script\StageClear.cs" />
+     <Compile Include="Assets\1_Script\TimeReset.cs" />
      <Compile Include="Assets\1_Script\UIMgr.cs" />
      <Compile Include="Assets\1_Script\UnlockStage.cs" />
+     <Compile Include="Assets\1_Script\VoteManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
