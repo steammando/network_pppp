@@ -1462,7 +1462,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 52
-    m_FontStyle: 0
+    m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 5
     m_MaxSize: 52
@@ -1936,6 +1936,7 @@ MonoBehaviour:
   obstacle: {fileID: 1528825564827764, guid: 0400e27077a52594892733ddb92214b9, type: 2}
   obsNum: 0
   Coin_money: {fileID: 1931755952096828, guid: 58ba81d4ba9014347b27d0fab4aff5f4, type: 2}
+  Bomb_Update: 0
 --- !u!212 &695934218
 SpriteRenderer:
   m_ObjectHideFlags: 0

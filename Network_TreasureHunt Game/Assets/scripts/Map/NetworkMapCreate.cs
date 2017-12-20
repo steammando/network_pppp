@@ -15,25 +15,27 @@ public class NetworkMapCreate : MonoBehaviour {
     public struct WallStruct
     {
         public GameObject obj;
-        public Transform tf; // 위치 변환용
-        public bool active;
-        public Vector3 pos; //위치 정보 저장용
+        public Transform tf;//For position conversion
+        public bool active; //Purpose of activation
+        public Vector3 pos; //For storing location information
     }
     public WallStruct[] Walls;
 
     public struct TileSturct
     {
         public GameObject obj;
-        public Transform tf; // 위치 변환용
-        public bool active;
-        public Vector3 pos; //위치 정보 저장용
+        public Transform tf;//For position conversion
+        public bool active; //Purpose of activation
+        public Vector3 pos; //For storing location information
     }
-    public TileSturct[,] tiles; //바닥에 사용할 GameObject(프리팹) 가로 * 세로
-    private float tileGap = 0.65f;
+    public TileSturct[,] tiles; //GameObject to use on the floor (Prefab) Landscape * Portrait
+    private float tileGap = 0.65f; //Adjust the spacing between tiles
 
-    public GameObject obstacle; //함정 추가
+
+    //The variables and methods for adding bombs are the same as TileStruct.
+    public GameObject obstacle;
     public int obsNum;
-    private int r, l;
+    private int r, l; //Variable to adjust the position of the bomb
 
     struct ObstacleStruct
     {
@@ -45,6 +47,8 @@ public class NetworkMapCreate : MonoBehaviour {
     }
     private ObstacleStruct[] obss;
 
+
+    //The variables and methods for adding coins are the same as TileStruct.
     public GameObject Coin_money;
     private int coinNum = 5;
     struct CoinStruct
@@ -58,14 +62,15 @@ public class NetworkMapCreate : MonoBehaviour {
     private CoinStruct[] coin;
 
 
-    private Vector3 tempVec; // 임시벡터값
-    private Vector3 tileCenterVec; // 최초 타일의 위치값
-    private Vector3 wallPos; // 벽 위치 저장용
+    private Vector3 tempVec; //Temporary vector value
+    private Vector3 tileCenterVec; //Position value of the first tile
+    private Vector3 wallPos; //Variable for storing wall location
 
-    private int lastTileNum = 0;
-    private Vector3 wallRo;
+    private int lastTileNum = 0; //Number with the last tile
+    private Vector3 wallRo; //Vector Variables for the Wall
 
-    public static NetworkMapCreate instance;
+
+    public static NetworkMapCreate instance; //Set it to call itself in another script.
 
 
     private PlayerMove PM;
@@ -73,12 +78,9 @@ public class NetworkMapCreate : MonoBehaviour {
     private float health;
 
 
-    public bool Bomb_Update = false;
 
+    public bool Bomb_Update = false; //Variables for checking the creation of a bomb through vote
 
-
-
-	// Use this for initialization
 
     void Awake()
     {
@@ -86,12 +88,16 @@ public class NetworkMapCreate : MonoBehaviour {
         instance = this;
         CreateTiles();
         obsNum = 0;
+        /* Sets the default location of the tile and puts its own value in the instance.
+         * After creating a tile, set the number of traps to zero.
+         */
 
     }
-	void Start () {
+    void Start () {
         soc = FindObjectOfType<NetworkConsole>();
         PM = FindObjectOfType<PlayerMove>();
         health = PM.HP;
+        //After saving each script's information, we save the HP value in PlayerMove to the health variable.
     }
 
 
@@ -103,7 +109,8 @@ public class NetworkMapCreate : MonoBehaviour {
             Bomb_Update = false;
             Make_Bomb();
         }
-     }
+        //If Bomb_Update has a true value through voting, it will generate a bomb.
+    }
 
 
 
@@ -112,16 +119,16 @@ public class NetworkMapCreate : MonoBehaviour {
 
 
     void CreateTiles()
-    { //사용할 타일들을 생성합니다.
+    {
+        // Create tiles.
 
-        tempVec = tileCenterVec; // 타일 생성 위치 지정을 위한 최초 기준점
- 
-        //RightWall = Instantiate(RightWall, position: , rotation: Quaternion.identity) as GameObject;
+        tempVec = tileCenterVec; // Initial reference point for positioning tile creation
 
-        tiles = new TileSturct[tile_row, tile_column]; // 총 tile_row * tile_column 만큼을 반복해서 사용합니다.
-        obss = new ObstacleStruct[obsNum];
-        coin = new CoinStruct[coinNum];
-        Walls = new WallStruct[2];
+
+        tiles = new TileSturct[tile_row, tile_column]; // Repeat tile_row * tile_column total times.
+        obss = new ObstacleStruct[100]; // The maximum number of bombs is created by the number of tiles.
+        coin = new CoinStruct[coinNum]; // The number of coins is only set to a preset value.
+        Walls = new WallStruct[2]; // Create a wall to keep the player on the tile.
 
 
         wallRo = new Vector3(0, 0, 90);
@@ -130,14 +137,14 @@ public class NetworkMapCreate : MonoBehaviour {
         Walls[0].obj = Instantiate(Wall, position: wallPos, rotation: Quaternion.Euler(wallRo)) as GameObject;
         wallPos.x -= (tempVec.x * 3) + tileGap / 2;
         Walls[1].obj = Instantiate(Wall, position: wallPos, rotation: Quaternion.Euler(wallRo)) as GameObject;
+        // After rotate the wall prefab, specify the position of each, and actually create it.
 
 
         for (int j = 0; j < tile_column; j++)
         {
             for (int i = 0; i < tile_row; i++)
             {
-                //기본 정보와 위치를 셋팅해줍니다.
-
+                // Set basic information and location.
                 tiles[i, j].obj = Instantiate(tile, position: tempVec, rotation: Quaternion.identity) as GameObject;
                 tiles[i, j].obj.GetComponent<TileInfo>().x = j;
                 tiles[i, j].obj.GetComponent<TileInfo>().y = i;
@@ -145,16 +152,12 @@ public class NetworkMapCreate : MonoBehaviour {
                 tiles[i, j].pos = tiles[i, j].tf.position;
                 tiles[i, j].active = true;
 
-
-
-
-
-                tempVec.x += tileGap; // (가로행) 다음 타일은 tileGapX만큼 이동한 위치에 생성
-                lastTileNum++; // 현재 마지막 타일이 어느 것인지 판별하기 위한 변수++
+                tempVec.x += tileGap; // (Horizontal row) Next tile is created at the position moved by tileGapX
+                lastTileNum++; // Sets the value of the variable to determine which is the last tile.
 
             }
-            tempVec.x = -1.2f; // 다시 초기 위치로 이동;
-            tempVec.y -= tileGap; //(세로행) 다음 타일은 tileGapY만큼 이동한 위치에서부터 생성하기 시작한다.
+            tempVec.y -= tileGap;
+            tempVec.x = -1.2f; // After moving the column down one column, move the created position back to the initial row position.
         }
 
 
@@ -163,11 +166,14 @@ public class NetworkMapCreate : MonoBehaviour {
         {
             r = Random.Range(0, tile_row - 1);
             l = Random.Range(0, tile_column - 1);
+            // Set random locations to create coins in random places.
             if (tiles[r, l].active == false)
             {
-                continue;
+                continue; // If you already have a coin or bomb in a random location, run it again.
             }
             tiles[r, l].active = false;
+            // If it's ok to create it, change the active tile to false.
+            // This is to avoid duplicate creation.
 
             coin[coinNum - 1].obj = Instantiate(Coin_money, position: tiles[r, l].pos, rotation: Quaternion.identity) as GameObject;
             coin[coinNum - 1].tf = tiles[r, l].obj.transform;
@@ -175,10 +181,11 @@ public class NetworkMapCreate : MonoBehaviour {
             coin[coinNum - 1].active = true;
             coin[coinNum - 1].parentTileNum = lastTileNum;
             coinNum--;
+            // After setting up to create a coin, reduce the number you need to create one by one.
         }
     }
 
-    public void vote_insert()
+    public void vote_insert() //This is a variable that can be called from another script (like NetworkConsole).
     {
         Debug.Log("시청자들이 폭탄을 생성했어!");
         Bomb_Update = true;
@@ -193,15 +200,16 @@ public class NetworkMapCreate : MonoBehaviour {
         if (tiles[r, l].active != false)
         {
             tiles[r, l].active = false;
-            obss[obsNum].obj = Instantiate(obstacle, position: tiles[r, l].pos, rotation: Quaternion.identity) as GameObject;
-            obss[obsNum].tf = tiles[r, l].obj.transform;
-            obss[obsNum].pos = tiles[r, l].tf.position;
-            obss[obsNum].active = true;
-            obss[obsNum].parentTileNum = lastTileNum;
+            obss[obsNum + 1].obj = Instantiate(obstacle, position: tiles[r, l].pos, rotation: Quaternion.identity) as GameObject;
+            obss[obsNum + 1].tf = tiles[r, l].obj.transform;
+            obss[obsNum + 1].pos = tiles[r, l].tf.position;
+            obss[obsNum + 1].active = true;
+            obss[obsNum + 1].parentTileNum = lastTileNum;
             obsNum++;
-
         }
     }
+    //Generate bombs in the same way as coins.
+
     IEnumerator ServerMessage()
     {
         string rcvData;
@@ -212,9 +220,4 @@ public class NetworkMapCreate : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
         }
     }
-
-
-
-
-
 }

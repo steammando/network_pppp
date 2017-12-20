@@ -228,15 +228,11 @@
     <Compile Include="Assets\scripts\Map\NetworkMapCreate.cs" />
     <Compile Include="Assets\scripts\Map\TileInfo.cs" />
     <Compile Include="Assets\scripts\Map\VendingMachineInfo.cs" />
-    <Compile Include="Assets\scripts\NetworkClient.cs" />
     <Compile Include="Assets\scripts\NetworkConsole.cs" />
-    <Compile Include="Assets\scripts\Player\Arrow_collision.cs" />
     <Compile Include="Assets\scripts\Player\PlayerMove.cs" />
     <Compile Include="Assets\scripts\SoundManager\SoundManager.cs" />
-    <Compile Include="Assets\scripts\UI\UIconnNet.cs" />
     <Compile Include="Assets\scripts\UI\UIgameover.cs" />
     <Compile Include="Assets\scripts\UI\UIgameStart.cs" />
-    <Compile Include="Assets\scripts\UI\UInetgame.cs" />
     <Compile Include="Assets\scripts\VoteManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ public class VoteManager : MonoBehaviour
     private bool bossExistance;
     private bool activeVote;
 
-    // Use this for initialization
+
     void Awake()
     {
         instance = this;

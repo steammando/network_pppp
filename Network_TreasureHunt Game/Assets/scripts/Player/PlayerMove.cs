@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour {
     private Transform playerTF;
     private Vector3 playerPos;
     
-    private TileInfo currentTile = null; //현재 닿아있는 tile을 저장
+    private TileInfo currentTile = null; // Save the current tile
     private VendingMachineInfo vm = null;
     public static PlayerMove instance;
     private void Awake()
@@ -70,7 +70,7 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space) == true) // dig tile
         {
             if(currentTile!=null)
-                GameObject.Destroy(currentTile.gameObject); //충돌 체크된 타일을 삭제시킨다.
+                GameObject.Destroy(currentTile.gameObject); // Delete conflict checked tiles.
         }
         
     }
@@ -100,11 +100,10 @@ public class PlayerMove : MonoBehaviour {
         {
             Debug.LogError("게임 오버");
             NetworkConsole.instance.endSocketCon();
-            GameObject.Find("Canvas").transform.Find("GameoverPanel").gameObject.SetActive(true); //게임 오버 패널 활성화
-            /* 바로 gameoverpanel을 찾지 않고, canvas를 경유해서 찾는 이유는 현재 gameovepanel의 상태가 비활성화 상태이므로
-             * 찾을 수가 없기 때문이다.
-             */
-            Time.timeScale = 0; //시간 멈춤
+            GameObject.Find("Canvas").transform.Find("GameoverPanel").gameObject.SetActive(true); //Activate game over panel
+            // can not find the gameoverpanel because I can not find the gameoverpanel because the current state of the gameovepanel is inactive.
+          
+            Time.timeScale = 0; // time stop
         }
 
     }
@@ -146,14 +145,4 @@ public class PlayerMove : MonoBehaviour {
         }
 
     }
-
-    public void Next_Level()
-    {
-        playerTF = transform;
-        playerPos = playerTF.position;
-        level++;
-        MaxHP += (int)Mathf.Log(level, 2f);
-
-    }
-
 }

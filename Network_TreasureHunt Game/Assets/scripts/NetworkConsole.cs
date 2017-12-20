@@ -30,11 +30,8 @@ public class NetworkConsole : MonoBehaviour {
     private string ReceiveString;
 
 
-	// Use this for initialization
 	void Start () {
         instance = this;
-        
-        //StartCoroutine("SocketRead_Keyword");
     }
 
     private void OnApplicationQuit()
@@ -118,13 +115,13 @@ public class NetworkConsole : MonoBehaviour {
     {
         sendToServer("VOTESET_200_2_30");
         yield return new WaitForSeconds(0.1f);
-        sendToServer("VOTENM_200_bombVote"); //투표 생성
+        sendToServer("VOTENM_200_bombVote"); //Create Vote
         yield return new WaitForSeconds(0.1f);
 
-        sendToServer("VOTEKEY_200_bomb"); //투표 키워드 설정
+        sendToServer("VOTEKEY_200_bomb"); //Set Vote keywords
         yield return new WaitForSeconds(0.1f);
 
-        sendToServer("VOTEKS_200"); //키워드 투표 시작
+        sendToServer("VOTEKS_200"); //Start Vote by keyword
         yield return new WaitForSeconds(0.1f);
 
     }
@@ -145,7 +142,7 @@ public class NetworkConsole : MonoBehaviour {
                 Debug.Log("Now... -> " + temp[0]);
                 if (String.Equals(temp[0], "VOTEBAK"))
                 {
-                    VoteManager.instance.VoteRST(temp);
+                    VoteManager.instance.VoteRST(temp); //When the voteback protocol arrives, run VoteRst to see the result returned.
                 }
                 temp = null;
             }
@@ -162,6 +159,6 @@ public class NetworkConsole : MonoBehaviour {
     public void endSocketCon()
     {
         if(my_socket!=null)
-            my_socket.Close();
+            my_socket.Close(); 
     }
 }
