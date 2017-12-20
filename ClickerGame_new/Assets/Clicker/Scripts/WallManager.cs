@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Clicker {
 	public class WallManager : MonoBehaviour {
+        //Game Objects...
         public GameObject Wall;
         public Text numOfBlock;
         public bool active;
@@ -41,6 +42,7 @@ namespace Clicker {
             }
         }
 
+        //add block
         public void makeNewBlock()
         {
             GameObject newWall;
@@ -75,6 +77,7 @@ namespace Clicker {
 			}
 		}
 
+        //move next Block
 		private IEnumerator MoveToNextWallCo() {
 			const int frameToPlay = 5;
 			float delta = gapBetweenWalls / frameToPlay;
