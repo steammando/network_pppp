@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class Player : MonoBehaviour {
-
+    //////////////game objects/////////////////
     public GameObject knife;
     public GameObject effect;
     public Image healthBar;
+
     private Rigidbody2D rb2d;
     private Animator anim;
 
     private Vector3 moveVector;
     private Vector3 SpeedVector;
     private GameObject temp;
-    
+    private GameObject effectBomb;
+    private float direction;
     private Color color;
     private float health=100;
     private float moveSpeed = 5f;
+    ////////////////boolean values...////////////////////////////
     private bool invincibility;
+    //key active...
     private bool activeBool;
     private bool attackState;
     private bool attackFlag;
     private bool keyActivation;
-    private GameObject effectBomb;
-    private float direction;
+   
+    //player state --> air or ground?!
     private enum state
     {
         ground,air
@@ -33,7 +37,7 @@ public class Player : MonoBehaviour {
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        activeBool = false;//activeBool은 현재 지정된 키를 입력하고 있는지 확인하는 부분.
+        activeBool = false;
         invincibility = false;
         attackState = false;
         attackFlag = true;
@@ -43,18 +47,22 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        //player's direction is current localscale.x(left_-1,right_1)
         direction = gameObject.transform.localScale.x;
+        //if player is dropping
         if (rb2d.velocity.y < 0)
         {
+            //remove idle, move animation
             anim.ResetTrigger("Idle");
             anim.ResetTrigger("Move");
+            //set current state to air, and animation to down
             curPos = state.air;
             anim.SetTrigger("Down");
         }
-
+        //if key activation(move activation) get key
         if(keyActivation)
             StartCoroutine("Move");
-        
+        //check current attacking...
         attackState = isAttack();
         
         if (curPos==state.ground&&!activeBool)
@@ -71,7 +79,6 @@ public class Player : MonoBehaviour {
             rb2d.velocity = moveVector;
             activeBool = false;
         }
-
     }
 
     public void Damaged(int _d)

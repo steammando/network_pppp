@@ -137,20 +137,19 @@ public class Boss : MonoBehaviour
     }
 
     //got message from server.
-   
+    //but current version, Socket manager processing recive packet
     IEnumerator ServerMessage()
     {
         string rcvData;
         while (health>0)
         {
+            //send message...
             rcvData = soc.receiveFromServer();
-
-            Debug.Log(rcvData);
-
             yield return new WaitForSeconds(0.5f);
         }
     }
-
+    //start vote...per every 11 seconds.
+    //If you do not give time between, it will stick.
     IEnumerator VoteProcess()
     {
         while (true)
@@ -182,7 +181,9 @@ public class Boss : MonoBehaviour
         bulletManager.shootBullet();
         yield return null;
     }
+
     //drop thorn pattern... --> loop(true)
+    //called each 3f
     IEnumerator DropThorn()
     {
         while (true)
@@ -191,6 +192,7 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(3f);
         }
     }
+    //stab thorn from floor. called each 5f(loop (true)
     IEnumerator BotThorn()
     {
         while(true)
@@ -200,16 +202,19 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(3f);
         }
     }
+    //shoot beam pattern. need 3 animation...
     IEnumerator ReadyBeam()
     {
         anim.SetTrigger("Ready");
         patternBoolean[1] = false;
         while (true)
         {
+            //if(animation process >0.7...)
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("BlinkEye") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f)
             {
+                //set next animation
                 anim.SetTrigger("Shoot");
-
+                
                 GameManager.instance.beam.ShootBeam();
                 break;
             }
@@ -217,12 +222,15 @@ public class Boss : MonoBehaviour
         }
         yield return null;
     }
+    //when boss damaged, set damaged motion
     IEnumerator Damaged()
     {
         health -= 10;
+        //gui health bar updated
         healthBar.fillAmount = health / fullHealth;
         while (true)
         {
+            //if(current animation is damaged, the procession is >=80%)
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
             {
                 anim.ResetTrigger("Damaged");
@@ -233,6 +241,8 @@ public class Boss : MonoBehaviour
         }
         yield return null;
     }
+    //Motion related functions are not used!
+    //not used on current version...(boss not move!)
     IEnumerator move()
     {
         activeBool = false;
@@ -251,13 +261,14 @@ public class Boss : MonoBehaviour
         rb2d.velocity = new Vector3(0, 0, 0);
         activeBool = true;
     }
+
     public bool validInput_move()
     {
         if (rb2d.velocity.x != 0)
             return false;
         return true;
     }
-    //set health of boss...
+    //set health of boss...(not used on current version.)
     public void setHealth(int difficult)
     {
         switch (difficult)

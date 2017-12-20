@@ -16,6 +16,7 @@ public class VoteManager : MonoBehaviour
     {
         instance = this;
     }
+    //start() is ran on after awake...
     void Start()
     {
         if (GameManager.instance.boss != null)
@@ -27,6 +28,7 @@ public class VoteManager : MonoBehaviour
     }
 
     //VOTESET_primarykey_votetype_time
+    //make a message(set vote for _time, this type is x)
     public string startVote(int primaryKey, int type, int _time)
     {
         Debug.Log("is error...?");
@@ -36,6 +38,7 @@ public class VoteManager : MonoBehaviour
     }
 
     //VOTENM_primary_text
+    //set the vote's name,,,
     public string setVoteName(int primaryKey, string name)
     {
         String rst = "VOTENM_" + primaryKey.ToString() + "_" + name.ToString();
@@ -50,7 +53,7 @@ public class VoteManager : MonoBehaviour
         rst = "VOTELST_" + primaryKey.ToString() + "_" + n.ToString() + "_" + content.ToString();
         return rst;
     }
-
+    //when n or content not exist, it is end of entry
     public string VoteEntry(int primaryKey)
     {
         String rst;

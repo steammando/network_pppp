@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Knife : MonoBehaviour {
 
+    //speed of player bullet
     private float speed = 7f;
     private Rigidbody2D rb2d;
 	// Use this for initialization
@@ -14,10 +15,8 @@ public class Knife : MonoBehaviour {
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    //this object's direction define by player...
     public void shoot(int direction)
     {
         if(direction==1)
@@ -31,6 +30,7 @@ public class Knife : MonoBehaviour {
             rb2d.velocity = new Vector3(-speed, 0, 0);
         }
     }
+    //if it collision with mainfloor, destroy...
     void OnTriggerEnter2D(Collider2D _col)
     {
         if (_col.CompareTag("MainFloor"))

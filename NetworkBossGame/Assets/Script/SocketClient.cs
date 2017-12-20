@@ -8,6 +8,10 @@ using System.Net.Sockets;
 public class SocketClient : MonoBehaviour
 {
 
+    //  SocketClient part is changed! SocketClient.cs -> SocketCon.cs...
+    //  This source code is for testing purposes only.
+    //  Refer to SocketCon for actual code.s
+    //////////////////////////////////////////////////////////////////////
     public TcpClient clientSocket;
     public string ipAddress = "127.0.0.1";
     public int portNumber = 8000;
