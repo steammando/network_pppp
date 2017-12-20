@@ -13,10 +13,10 @@ public class Beam : MonoBehaviour {
     private Animator anim;
     private Color color;
     private int damage=20;
+
 	void Start () {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        //color.a = 0f;
         color = sr.color;
         color.a = 0f;
         sr.color = color;
@@ -25,12 +25,14 @@ public class Beam : MonoBehaviour {
     }
 	void OnTriggerEnter2D(Collider2D _col)
     {
+        //ver0.2...-->current not used.
+        /*
         position.x = GameManager.instance.transform.position.x;
         gameObject.transform.position = position;
-        afterMathPos.x = position.x;
+        afterMathPos.x = position.x;*/
+        
         if(_col.CompareTag("Player")&&sr.color.a!=0)
         {
-            Debug.Log("Damaged!");
             GameManager.instance.player.Damaged(damage);
         }
     }
@@ -48,17 +50,23 @@ public class Beam : MonoBehaviour {
     }
     IEnumerator Shoot()
     {
+        //create 4 additional block
         for(int i=0;i<4;i++)
         {
+            //right
             temp=Instantiate(beamTracer, afterMathPos, Quaternion.identity);
             temp.GetComponent<Rigidbody2D>().velocity = new Vector3(5, 0, 0);
+            //eft
             temp = Instantiate(beamTracer, afterMathPos, Quaternion.identity);
             temp.gameObject.transform.localScale = new Vector3(-1, 1, 1);
             temp.GetComponent<Rigidbody2D>().velocity = new Vector3(-5, 0, 0);
             yield return new WaitForSeconds(1f);
         }
+
+        //if pattern is end, it will be transparent
         color.a = 0f;
         sr.color = color;
+        //to idle state...
         anim.ResetTrigger("Shoot");
         anim.SetTrigger("Idle");
         //GameManager.instance.boss.patternBoolean[1] = true;

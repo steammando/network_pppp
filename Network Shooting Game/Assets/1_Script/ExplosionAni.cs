@@ -7,6 +7,7 @@ public class ExplosionAni : MonoBehaviour {
 
     void Update()
     {
+        //generate boom paritcle once
         if (this.GetComponent<SpriteRenderer>().sprite == spr)
             Destroy(this.gameObject);
     }

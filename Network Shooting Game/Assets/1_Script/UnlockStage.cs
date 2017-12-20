@@ -11,6 +11,7 @@ public class UnlockStage : MonoBehaviour {
         Unlock(MapMgr.self.stageNum);
     }
 
+    //next stage unlock if stage clear
     void Unlock(int n)
     {
         for (int i = 1; i <= 5; i++)

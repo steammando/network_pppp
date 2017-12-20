@@ -9,17 +9,16 @@ public class StageClear : MonoBehaviour {
 
     private bool clear;
 
-	// Use this for initialization
+    //set clear object
 	void Start () {
         clear = false;
 
         goalObj = GameObject.FindGameObjectsWithTag("Enemy");
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (!clear)
-            if (CheckAllKill())
+            if (CheckAllKill())//is cleard
             {
                 Debug.Log("ASD");
                 clear = true;
@@ -29,6 +28,7 @@ public class StageClear : MonoBehaviour {
             }
 	}
 
+    //check all object killed
     bool CheckAllKill()
     {
         bool all = true;

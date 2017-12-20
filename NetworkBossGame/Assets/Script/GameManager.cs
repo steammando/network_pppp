@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SocketCon.instance.endSocketCon();
 	}
     void OnTriggerEnter2D(Collider2D _col)
     {
@@ -54,14 +55,22 @@ public class GameManager : MonoBehaviour {
     }
     public void GameOver()
     {
+<<<<<<< HEAD
         text.transform.Find("Canvas").gameObject.SetActive(true);
+=======
+        SocketCon.instance.endSocketCon();
+        text.transform.FindChild("Canvas").gameObject.SetActive(true);
+>>>>>>> 17e63e02cb910128f01266583002b3bcf81bf22f
         gameOver = true;
         
     }
     public void loadNextScene()
     {
-        if(gameOver)
+        if (gameOver)
+        {
+            SocketCon.instance.endSocketCon();
             SceneManager.LoadScene("GameOver");
+        }
     }
     public int getDifficult()
     {

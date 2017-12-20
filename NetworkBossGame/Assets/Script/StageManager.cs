@@ -5,15 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //scene load
     public void LoadGameScene()
     {
         SceneManager.LoadScene("Test");

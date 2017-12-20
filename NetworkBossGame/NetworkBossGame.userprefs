@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿<Properties StartupItem="NetworkBossGame.csproj">
+=======
+﻿<Properties StartupItem="NetworkBossGame.CSharp.csproj">
+>>>>>>> 17e63e02cb910128f01266583002b3bcf81bf22f
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\SocketCon.cs">
     <Files>

@@ -30,6 +30,10 @@ public class Thone : MonoBehaviour {
             gameObject.transform.position = positonVector;
         }
     }
+    // stab...
+    // Thorns rising from the feet
+    // thorn manager is transparent but, when attack initiating,
+    // It becomes opaque and warns the player.
     public void stab()
     {
         GameManager.instance.boss.patternBoolean[3] = false;
@@ -41,6 +45,9 @@ public class Thone : MonoBehaviour {
         thoneObject=Instantiate(thone, thonePosition, Quaternion.identity);
         StartCoroutine("ThoneUp");
     }
+    //  
+    // 
+    // 
     IEnumerator ThoneUp()
     {
         yield return new WaitForSeconds(1f);

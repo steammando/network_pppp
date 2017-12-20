@@ -23,24 +23,27 @@ public class BallSetting : MonoBehaviour {
 	}
 	
 	void Update () {
+        //if queue has ball
         if (ballSet.Count > 0 && (ball == null || ball.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic))
         {
-            ball = ballSet.Dequeue();
+            ball = ballSet.Dequeue();//get ball in queue
             loadingBall = true;
         }
         if (loadingBall)
         {
             timeSpan += Time.deltaTime;
-
+            //wating time
             if(timeSpan >= setTime)
             {
+                //generate ball to catapult
                 ball = Instantiate(ball, catapult.transform.position, Quaternion.identity);
-                timeSpan = 0.0f;
+                timeSpan = 0.0f;//time reset
                 loadingBall = false;
             }
         }
 	}
 
+    //add ball in queue
     void AddBall(GameObject newBall)
     {
         ballSet.Enqueue(newBall);

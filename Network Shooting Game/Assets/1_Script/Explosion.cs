@@ -19,29 +19,31 @@ public class Explosion : MonoBehaviour
 
     void Update()
     {
-
+        //if ball is launched
         if (!bombRigidbody.isKinematic)
         {
             if (Input.GetMouseButtonDown(1))
             {
                 Baam();
-                //explosion particle
+                //explosion particle generate
                 Instantiate(effect, transform.position, Quaternion.identity);
                 GetComponent<AudioSource>().Play();
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Collider2D>().enabled = false;
-                //Destroy(this.gameObject);
+
                 StartCoroutine(DestoyThis(2.0f));
             }
         }
     }
 
+    //add explosion force other
     void Baam()
     {
-        Collider2D[] aroundBombs = Physics2D.OverlapCircleAll(transform.position, explosionArea);
+        Collider2D[] aroundBombs = Physics2D.OverlapCircleAll(transform.position, explosionArea);//get object around boom
 
         foreach (Collider2D col in aroundBombs)
         {
+            //add force around boom
             if (col.GetComponent<Rigidbody2D>() != null)
                 Rigidbody2DExtension.AddExplosionForce(col.GetComponent<Rigidbody2D>(), explosionPower, transform.position, explosionArea, explosionUplift);
         }
