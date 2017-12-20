@@ -787,7 +787,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c52d6f67f3e8ac84296447011bd4c442, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f215d5677dc1cfc448345024fbc23c89, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1835,6 +1835,59 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 651485303}
+--- !u!1 &694377252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 694377256}
+  - component: {fileID: 694377254}
+  - component: {fileID: 694377253}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &694377253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 694377252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856741f26f3097f4e95583142c6f3e3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &694377254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 694377252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb1407a28cbe9b46badf4d4bc705f20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iPaddress: 192.168.170.24
+--- !u!4 &694377256
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 694377252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.03999996, y: -2.5700002, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &695934215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,13 +1926,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 695934215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fae0740cc1f979d42be79de33459ba6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 15914f05f8489f343a1d92c5d72ae24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 1956664803112862, guid: bd19709d504344f42ab766a1c4c20ac7, type: 2}
-  UnderGround: {fileID: 800051977}
-  Wall: {fileID: 0}
+  UnderGround: {fileID: 1774624570612720, guid: e316fd244a028a448b6504b9fb86147d,
+    type: 2}
+  Wall: {fileID: 1597642061298064, guid: 779140bbecb82c243a8f1ebca42556be, type: 2}
   obstacle: {fileID: 1528825564827764, guid: 0400e27077a52594892733ddb92214b9, type: 2}
+  obsNum: 0
   Coin_money: {fileID: 1931755952096828, guid: 58ba81d4ba9014347b27d0fab4aff5f4, type: 2}
 --- !u!212 &695934218
 SpriteRenderer:
@@ -2266,7 +2321,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 652040991
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b2c511123a5734b4d815b7ddd60de52b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2908,8 +2963,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2114262014}
-        m_MethodName: 
+      - m_Target: {fileID: 2114262018}
+        m_MethodName: Networkbutton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

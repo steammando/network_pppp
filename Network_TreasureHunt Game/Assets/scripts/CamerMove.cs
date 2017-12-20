@@ -16,14 +16,15 @@ public class CamerMove : MonoBehaviour {
         GameObject.Find("Canvas").transform.Find("GameStartPanel").gameObject.SetActive(true);
     }
 
-    void Start () {
+    void Start ()
+    {
+        GameObject.Find("BoardManager").transform.Find("Player").gameObject.SetActive(true);
         player = GameObject.FindGameObjectWithTag("Player");
     }
 	
 	// Update is called once per frame
 	void Update () {
-       // Debug.Log("AAA");
-        tempVector= player.transform.position;
+        tempVector = player.transform.position;
         tempVector.z = -10;
         gameObject.transform.position = tempVector;
 	}

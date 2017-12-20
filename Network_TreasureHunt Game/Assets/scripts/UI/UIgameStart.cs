@@ -15,10 +15,15 @@ public class UIgameStart : MonoBehaviour
     }
     public void ExitButton()
     {
-
+        NetworkConsole.instance.endSocketCon();
+        Application.Quit();
     }
     public void Networkbutton()
     {
-
+        NetworkConsole.instance.startVote();
+        Time.timeScale = 1f;
+        GameObject.Find("Canvas").transform.Find("GameStartPanel").gameObject.SetActive(false);
+        GameObject.Find("BoardManager").transform.Find("NetworkGameManager").gameObject.SetActive(true);
+        GameObject.Find("BoardManager").transform.Find("Player").gameObject.SetActive(true);
     }
 }

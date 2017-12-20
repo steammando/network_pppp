@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BombInfo : MonoBehaviour {
-    private int Player_level;
     Vector3 thisBlockPos;
 
-    float damage;
-
+    float damage = 2;
+    public static BombInfo instance;
     private void Awake()
     {
-        Player_level = gameObject.GetComponent<PlayerMove>().level;
-        damage = (int)Mathf.Log(Player_level, 2f);
+        instance = this;
         thisBlockPos = transform.position;
         BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
     }
@@ -21,7 +19,6 @@ public class BombInfo : MonoBehaviour {
         if (col.CompareTag("Player"))
         {
             //Debug.LogError("폭탄 받아라!!!");
-
             SoundManager.soundManager.PlayExplosionSound();
             col.gameObject.GetComponent<PlayerMove>().Have_Damage(damage);
             gameObject.SetActive(false);

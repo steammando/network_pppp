@@ -18,7 +18,6 @@ public class TileInfo : MonoBehaviour {
     
     void OnCollisionStay2D(Collision2D col)
     {
-        Debug.Log("tile[" + y + "," + x + "]과 충돌");
     }
 
     public void destroy()

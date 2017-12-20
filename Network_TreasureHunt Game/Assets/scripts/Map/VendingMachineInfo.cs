@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class VendingMachineInfo : MonoBehaviour {
 
-    int Price = 1;
-    float Value = 3f;
+    int Price = 5;
+    float Value = 1f;
 
 
 
@@ -19,7 +19,7 @@ public class VendingMachineInfo : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            Debug.Log("상점 도착");
+            Debug.LogError("상점 도착");
             col.gameObject.GetComponent<PlayerMove>().BuyPortion(Price, Value);
             /*
             gameObject.SetActive(false);

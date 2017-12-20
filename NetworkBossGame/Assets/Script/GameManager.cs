@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
     }
     public void GameOver()
     {
-        text.transform.FindChild("Canvas").gameObject.SetActive(true);
+        text.transform.Find("Canvas").gameObject.SetActive(true);
         gameOver = true;
         
     }
