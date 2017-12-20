@@ -20,7 +20,6 @@ namespace Clicker {
 		public void OnMouseDown() {
 			if (IsActive) {
 				Player.Instance.AttackEffect();
-                Debug.Log("currentActive");
                 Player.Instance.GetComponent<Animator>().SetTrigger("Attack");
                 //Player.Instance.GetComponent<Animator>().ResetTrigger("Attack");
                 if ((HP -= Player.Instance.PlayerDamage) <= 0) {

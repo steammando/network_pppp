@@ -36,10 +36,7 @@ public class Beam : MonoBehaviour {
             GameManager.instance.player.Damaged(damage);
         }
     }
-	// Update is called once per frame
-	void Update () {
-        
-    }
+    //it call shoot... --> I shoot a bullet in a radial direction.
     public void ShootBeam()
     {
         anim.SetTrigger("Beam");
@@ -48,6 +45,7 @@ public class Beam : MonoBehaviour {
         sr.color = color;
         StartCoroutine("Shoot");
     }
+
     IEnumerator Shoot()
     {
         //create 4 additional block

@@ -42,9 +42,9 @@ public class SocketCon : MonoBehaviour
         catch
         {
             Console.Write("Unable to connect to remote end point!\r\n");
-            
+
         }
-        
+
         StringBuilder sb = new StringBuilder(); // String Builder Create
 
         sb.Append("Connection");
@@ -63,7 +63,7 @@ public class SocketCon : MonoBehaviour
         }
 
         thread = null;
-        if(thread==null)
+        if (thread == null)
         {
             Debug.Log("Thread Run!");
             thread = new Thread(RunThread);
@@ -71,31 +71,29 @@ public class SocketCon : MonoBehaviour
         }
         //StartCoroutine("SocketRead_Pattern");*/
     }
-    
-    void Update()
-    {
 
-    }
     void OnApplicationQuit()
     {
         m_Socket.Close();
         m_Socket = null;
     }
+
     public string receiveFromServer()
     {
-        try {
+        try
+        {
             m_Socket.Receive(Receivebyte);
             ReceiveString = Encoding.Default.GetString(Receivebyte);
             ReceivedataLength = Encoding.Default.GetByteCount(ReceiveString.ToString());
             //Debug.Log("Receive Data : " + ReceiveString + "(" + ReceivedataLength + ")");
         }
-        catch(SocketException e)
+        catch (SocketException e)
         {
             Debug.Log("SocketError " + e);
         }
         return ReceiveString;
     }
-
+    //send message to server.
     public void sendToServer(string message)
     {
         StringBuilder sb = new StringBuilder();
@@ -120,11 +118,10 @@ public class SocketCon : MonoBehaviour
     // send vote_determine boss's pattern vote...
     //If you do not specify a term, the strs of the buffer are appended.
     //*********************************************************************
-        IEnumerator SocketRead_Pattern()
+    IEnumerator SocketRead_Pattern()
     {
         while (true)
         {
-
             sendToServer("VOTENM_100_11");
             yield return new WaitForSeconds(0.1f);
 
@@ -152,14 +149,14 @@ public class SocketCon : MonoBehaviour
 
         int n = 0;
 
-        while(true)
+        while (true)
         {
             Array.Clear(Receivebyte, 0, Receivebyte.Length);
             try
             {
                 m_Socket.Receive(Receivebyte);
                 ReceiveString = Encoding.Default.GetString(Receivebyte);
-                string []temp = ReceiveString.Split('_');
+                string[] temp = ReceiveString.Split('_');
                 ReceivedataLength = Encoding.Default.GetByteCount(ReceiveString.ToString());
                 /*
                 if (String.Equals(temp[0], "Vote"))
@@ -174,6 +171,7 @@ public class SocketCon : MonoBehaviour
                 if (String.Equals(temp[0], "VOTEEND"))
                 {
                     VoteManager.instance.VoteRST(temp);
+                    GameManager.instance.socket_boolean = true;
                 }
                 temp = null;
             }
@@ -185,10 +183,25 @@ public class SocketCon : MonoBehaviour
 
         }
     }
+
     public void endSocketCon()
     {
-        socketActive = false;
-        m_Socket.Disconnect(false);
-        m_Socket.Close();
+        StartCoroutine("SocketWait");
+    }
+    //wait while socket is idle...(not voting)
+    IEnumerator SocketWait()
+    {
+        while (true)
+        {
+            if (GameManager.instance.socket_boolean)
+            {
+                socketActive = false;
+                m_Socket.Disconnect(false);
+                m_Socket.Close();
+                break;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return null;
     }
 }

@@ -81,13 +81,14 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /* if player damaged...player -->becomes invincible.
+     *************************************************************************************/
     public void Damaged(int _d)
     {
         if (!invincibility)
         {
-           
-            health -= _d;
-            healthBar.fillAmount = health / 100;
+            health -= _d;//decrease health
+            healthBar.fillAmount = health / 100;//call health bar
             if (health <= 0)
             {
                 keyActivation = false;

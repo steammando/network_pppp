@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Clicker {
 	public class WallManager : MonoBehaviour {
+        //Game Objects...
         public GameObject Wall;
         public Text numOfBlock;
+        public bool active;
         [SerializeField]
 		private Wall[] walls;
         //private Queue<Wall> wallSet;
@@ -31,8 +33,16 @@ namespace Clicker {
 			currentWallIndex = 0;
 			walls[currentWallIndex].IsActive = true;
 		}
+        void Update()
+        {
+            if (active)
+            {
+                makeNewBlock();
+                Instance.active = false;
+            }
+        }
 
-
+        //add block
         public void makeNewBlock()
         {
             GameObject newWall;
@@ -56,7 +66,7 @@ namespace Clicker {
             brokenNum++;
             int num = nextWallIndex - currentWallIndex;
             numOfBlock.text = num.ToString();
-            if (brokenNum % 5 == 0)
+            if (brokenNum % 2 == 0)
                 Player.Instance.changeWeapon();
 			if (++currentWallIndex == walls.Length||nextWallIndex+1==currentWallIndex) {
 				ClickerManager.Instance.PlayerWin();
@@ -67,6 +77,7 @@ namespace Clicker {
 			}
 		}
 
+        //move next Block
 		private IEnumerator MoveToNextWallCo() {
 			const int frameToPlay = 5;
 			float delta = gapBetweenWalls / frameToPlay;
