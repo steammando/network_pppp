@@ -27,7 +27,7 @@ public class Boss : MonoBehaviour
     private BossBullet bulletManager;
     private Thone thornManager;
     public GameObject pet;
-   
+
     //Moving variables --> __now not used__
     //Boss moving direction 
     private bool direction;//
@@ -61,15 +61,14 @@ public class Boss : MonoBehaviour
         StartCoroutine("DropThorn");
         StartCoroutine("BotThorn");
         StartCoroutine("VoteProcess");
+        StartCoroutine("bossPet");
         nextPattern = -1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-            soc.sendToServer("Vote_");
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss")|| anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Boss") || anim.GetCurrentAnimatorStateInfo(0).IsName("Damaged"))
         {
             if (patternBoolean[0])
             {
@@ -82,29 +81,10 @@ public class Boss : MonoBehaviour
                 StartCoroutine("ReadyBeam");
 
             }
-            if(patternBoolean[2])
+            if (patternBoolean[2])
             {
                 patternBoolean[2] = false;
                 rightFist.GetComponent<Fist>().bump();
-            }
-        }
-        if(patternBoolean[4])
-        {
-            Vector3 Ppos = GameManager.instance.player.transform.position;
-            patternBoolean[4] = false;
-            if (Ppos.x < 0)
-            {
-                Ppos.x = 10;
-                Ppos.y -= 1f;
-                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
-                obj_pet.GetComponent<BossPet>().run(-1);
-            }
-            else
-            {
-                Ppos.x = -10;
-                Ppos.y -= 1f;
-                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
-                obj_pet.GetComponent<BossPet>().run(1);
             }
         }
     }
@@ -142,7 +122,7 @@ public class Boss : MonoBehaviour
     IEnumerator ServerMessage()
     {
         string rcvData;
-        while (health>0)
+        while (health > 0)
         {
             //send message...
             rcvData = soc.receiveFromServer();
@@ -158,7 +138,7 @@ public class Boss : MonoBehaviour
             if (health < 0)
                 break;
 
-            soc.sendToServer(VoteManager.instance.startVote(primaryKey, 1, 11));
+            soc.sendToServer(VoteManager.instance.startVote(primaryKey, 1, 9));
             yield return new WaitForSeconds(0.2f);
             soc.sendToServer(VoteManager.instance.setVoteName(primaryKey, "Attack pattern"));
             yield return new WaitForSeconds(0.2f);
@@ -170,7 +150,7 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             soc.sendToServer(VoteManager.instance.VoteEntry(primaryKey));
             primaryKey++;
-            yield return new WaitForSeconds(13f);
+            yield return new WaitForSeconds(11f);
         }
         yield return null;
     }
@@ -199,7 +179,7 @@ public class Boss : MonoBehaviour
     //stab thorn from floor. called each 5f(loop (true)
     IEnumerator BotThorn()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(2f);
             thornManager.stab();
@@ -218,7 +198,7 @@ public class Boss : MonoBehaviour
             {
                 //set next animation
                 anim.SetTrigger("Shoot");
-                
+
                 GameManager.instance.beam.ShootBeam();
                 break;
             }
@@ -265,7 +245,29 @@ public class Boss : MonoBehaviour
         rb2d.velocity = new Vector3(0, 0, 0);
         activeBool = true;
     }
+    IEnumerator bossPet()
+    {
+        while (true)
+        {
+            Vector3 Ppos = GameManager.instance.player.transform.position;
+            if (Ppos.x < 0)
+            {
+                Ppos.x = 10;
+                Ppos.y -= 1f;
+                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
+                obj_pet.GetComponent<BossPet>().run(-1);
+            }
+            else
+            {
+                Ppos.x = -10;
+                Ppos.y -= 1f;
+                obj_pet = Instantiate(pet, Ppos, Quaternion.identity);
+                obj_pet.GetComponent<BossPet>().run(1);
+            }
 
+            yield return new WaitForSeconds(5f);
+        }
+    }
     public bool validInput_move()
     {
         if (rb2d.velocity.x != 0)

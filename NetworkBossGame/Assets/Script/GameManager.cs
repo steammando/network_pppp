@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SocketCon.instance.endSocketCon();
 	}
     void OnTriggerEnter2D(Collider2D _col)
     {

@@ -19,6 +19,7 @@ public class SocketCon : MonoBehaviour
     private int SenddataLength;
     private int ReceivedataLength;
 
+    private bool socketActive;
     private Boss boss;
     private Thread thread = null;
     private byte[] Sendbyte;
@@ -29,6 +30,7 @@ public class SocketCon : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        socketActive = true;
         instance = this;
         m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("192.168.170.24"), 8000);
@@ -97,17 +99,20 @@ public class SocketCon : MonoBehaviour
     public void sendToServer(string message)
     {
         StringBuilder sb = new StringBuilder();
-        
-        sb.Append(message);
-        try {
-            SenddataLength = Encoding.Default.GetByteCount(sb.ToString());
-            Sendbyte = Encoding.Default.GetBytes(sb.ToString());
-
-            m_Socket.Send(Sendbyte, Sendbyte.Length, 0);
-        }
-        catch(SocketException e)
+        if (socketActive)
         {
-            Debug.Log("SocketSendError "+e);
+            sb.Append(message);
+            try
+            {
+                SenddataLength = Encoding.Default.GetByteCount(sb.ToString());
+                Sendbyte = Encoding.Default.GetBytes(sb.ToString());
+
+                m_Socket.Send(Sendbyte, Sendbyte.Length, 0);
+            }
+            catch (SocketException e)
+            {
+                Debug.Log("SocketSendError " + e);
+            }
         }
     }
 
@@ -182,6 +187,8 @@ public class SocketCon : MonoBehaviour
     }
     public void endSocketCon()
     {
+        socketActive = false;
+        m_Socket.Disconnect(false);
         m_Socket.Close();
     }
 }
