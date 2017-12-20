@@ -45,6 +45,12 @@ TagManager:
   - name: BG
     uniqueID: 652040991
     locked: 0
+  - name: Bomb
+    uniqueID: 4270701279
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Coin
+    uniqueID: 3153334805
     locked: 0

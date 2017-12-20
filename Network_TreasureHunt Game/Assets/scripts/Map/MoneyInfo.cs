@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoneyInfo : MonoBehaviour {
-
-    Vector3 thisBlockPos;
-
-
+    // Insert coin value
     int money = 5;
 
     private void Awake()
     {
-        thisBlockPos = transform.position;
         BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
     }
 
@@ -24,6 +20,7 @@ public class MoneyInfo : MonoBehaviour {
             SoundManager.soundManager.PlayCoinGetSound();
             gameObject.SetActive(false);
             Destroy(gameObject);
+            //When contact the player, call the Earn_money function, and after make a coin acquisition sound, destroy this object.
         }
     }
 }

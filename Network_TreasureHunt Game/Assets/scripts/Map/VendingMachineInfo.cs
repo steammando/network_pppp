@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class VendingMachineInfo : MonoBehaviour {
 
-    int Price = 1;
-    float Value = 3f;
-
-
+    //Adjust the price and recovery amount.
+    int Price = 5;
+    float Value = 1f;
 
     private void Awake()
     {
+        //Create and save variables for conflict determination.
         BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
     }
-
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -21,10 +20,7 @@ public class VendingMachineInfo : MonoBehaviour {
         {
             Debug.Log("상점 도착");
             col.gameObject.GetComponent<PlayerMove>().BuyPortion(Price, Value);
-            /*
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-            */
+            //Call BuyPortion function in PlayerMove script
         }
     }
 }

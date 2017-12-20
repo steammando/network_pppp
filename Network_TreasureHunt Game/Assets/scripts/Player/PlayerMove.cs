@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour {
     public float HP = 10;
-    public float MaxHP;
+    public float MaxHP = 10;
     public int Money = 0;
     public float movePower = 1.5f;
     public float HP_gage;
@@ -19,11 +19,12 @@ public class PlayerMove : MonoBehaviour {
     private Transform playerTF;
     private Vector3 playerPos;
     
-    private TileInfo currentTile = null; //현재 닿아있는 tile을 저장
+    private TileInfo currentTile = null; // Save the current tile
     private VendingMachineInfo vm = null;
-
+    public static PlayerMove instance;
     private void Awake()
     {
+        instance=this;
         playerTF = transform;
         rb2d = GetComponent<Rigidbody2D>();
         BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
@@ -69,7 +70,7 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space) == true) // dig tile
         {
             if(currentTile!=null)
-                GameObject.Destroy(currentTile.gameObject); //충돌 체크된 타일을 삭제시킨다.
+                GameObject.Destroy(currentTile.gameObject); // Delete conflict checked tiles.
         }
         
     }
@@ -98,11 +99,11 @@ public class PlayerMove : MonoBehaviour {
         if(HP <= 0)
         {
             Debug.LogError("게임 오버");
-            GameObject.Find("Canvas").transform.Find("GameoverPanel").gameObject.SetActive(true); //게임 오버 패널 활성화
-            /* 바로 gameoverpanel을 찾지 않고, canvas를 경유해서 찾는 이유는 현재 gameovepanel의 상태가 비활성화 상태이므로
-             * 찾을 수가 없기 때문이다.
-             */
-            Time.timeScale = 0; //시간 멈춤
+            NetworkConsole.instance.endSocketCon();
+            GameObject.Find("Canvas").transform.Find("GameoverPanel").gameObject.SetActive(true); //Activate game over panel
+            // can not find the gameoverpanel because I can not find the gameoverpanel because the current state of the gameovepanel is inactive.
+          
+            Time.timeScale = 0; // time stop
         }
 
     }
@@ -112,8 +113,10 @@ public class PlayerMove : MonoBehaviour {
         string MM = "Money : " + Money.ToString();
         GameObject.Find("Canvas").transform.Find("Money_info").gameObject.GetComponent<Text>().text = MM;
     }
+
     public void GameClear()
     {
+        NetworkConsole.instance.endSocketCon();
         Debug.LogError("게임 클리어");
         GameObject.Find("Canvas").transform.Find("GameClearPanel").gameObject.SetActive(true);
         Time.timeScale = 0;
@@ -121,11 +124,11 @@ public class PlayerMove : MonoBehaviour {
 
     public void BuyPortion(int portionPrice, float portionValue)
     {
-        if (portionPrice <= Money && HP < MaxHP)
+        if (portionPrice <= Money && (int)HP_gage*10 <= MaxHP)
         {   
             Debug.Log("돈이 충분해!");
             SoundManager.soundManager.PlayHPrecoverSound();
-            if (HP < MaxHP)
+            if ((int)HP_gage * 10 <= MaxHP)
             {
                 HP += portionValue;
             }
@@ -142,14 +145,4 @@ public class PlayerMove : MonoBehaviour {
         }
 
     }
-
-    public void Next_Level()
-    {
-        playerTF = transform;
-        playerPos = playerTF.position;
-        level++;
-        MaxHP += (int)Mathf.Log(level, 2f);
-
-    }
-
 }

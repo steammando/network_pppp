@@ -139,6 +139,7 @@ public class Boss : MonoBehaviour
                 break;
 
             soc.sendToServer(VoteManager.instance.startVote(primaryKey, 1, 9));
+            GameManager.instance.socket_boolean = false;
             yield return new WaitForSeconds(0.2f);
             soc.sendToServer(VoteManager.instance.setVoteName(primaryKey, "Attack pattern"));
             yield return new WaitForSeconds(0.2f);
@@ -165,7 +166,6 @@ public class Boss : MonoBehaviour
         bulletManager.shootBullet();
         yield return null;
     }
-
     //drop thorn pattern... --> loop(true)
     //called each 3f
     IEnumerator DropThorn()

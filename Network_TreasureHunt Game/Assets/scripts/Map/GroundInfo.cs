@@ -5,11 +5,6 @@ using UnityEngine;
 public class GroundInfo : MonoBehaviour {
     public int x;
     public int y;
-    // Use this for initialization
-    private void Awake()
-    {
-        BoxCollider2D tempCol = gameObject.GetComponent<BoxCollider2D>();
-    }
 
     void OnTriggerEnter2D(Collider2D col)
     {

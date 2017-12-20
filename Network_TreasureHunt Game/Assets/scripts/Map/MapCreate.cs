@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
+
 public class MapCreate : MonoBehaviour {
 
 
@@ -144,8 +147,11 @@ public class MapCreate : MonoBehaviour {
             obss[obsNum - 1].parentTileNum = lastTileNum;
 
             obsNum--;
+            
+
+
         }
-        while(coinNum > 0)
+        while (coinNum > 0)
         {
             r = Random.Range(0, tile_row - 1);
             l = Random.Range(0, tile_column - 1);
