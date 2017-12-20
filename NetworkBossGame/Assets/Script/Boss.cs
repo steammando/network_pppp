@@ -35,8 +35,9 @@ public class Boss : MonoBehaviour
     private float moveSpeed = 10;//
     //Boss moving? yes:no;
     private bool activeBool;//
-    
 
+    //voteprimaryKey
+    private int primaryKey = 100;
     // Use this for initialization
     void Start()
     {
@@ -157,16 +158,19 @@ public class Boss : MonoBehaviour
             if (health < 0)
                 break;
 
-            soc.sendToServer(VoteManager.instance.startVote(100, 1, 11));
+            soc.sendToServer(VoteManager.instance.startVote(primaryKey, 1, 11));
             yield return new WaitForSeconds(0.2f);
-            soc.sendToServer(VoteManager.instance.VoteEntry(100, 0, "Rage"));
+            soc.sendToServer(VoteManager.instance.setVoteName(primaryKey, "Attack pattern"));
             yield return new WaitForSeconds(0.2f);
-            soc.sendToServer(VoteManager.instance.VoteEntry(100, 1, "Beam"));
+            soc.sendToServer(VoteManager.instance.VoteEntry(primaryKey, 1, "Rage"));
             yield return new WaitForSeconds(0.2f);
-            soc.sendToServer(VoteManager.instance.VoteEntry(100, 2, "Bump"));
+            soc.sendToServer(VoteManager.instance.VoteEntry(primaryKey, 2, "Beam"));
             yield return new WaitForSeconds(0.2f);
-            soc.sendToServer(VoteManager.instance.VoteEntry(100));
-            yield return new WaitForSeconds(11f);
+            soc.sendToServer(VoteManager.instance.VoteEntry(primaryKey, 3, "Bump"));
+            yield return new WaitForSeconds(0.2f);
+            soc.sendToServer(VoteManager.instance.VoteEntry(primaryKey));
+            primaryKey++;
+            yield return new WaitForSeconds(13f);
         }
         yield return null;
     }

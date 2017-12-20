@@ -54,14 +54,18 @@ public class GameManager : MonoBehaviour {
     }
     public void GameOver()
     {
+        SocketCon.instance.endSocketCon();
         text.transform.FindChild("Canvas").gameObject.SetActive(true);
         gameOver = true;
         
     }
     public void loadNextScene()
     {
-        if(gameOver)
+        if (gameOver)
+        {
+            SocketCon.instance.endSocketCon();
             SceneManager.LoadScene("GameOver");
+        }
     }
     public int getDifficult()
     {

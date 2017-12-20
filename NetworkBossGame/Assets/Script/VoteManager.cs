@@ -31,9 +31,8 @@ public class VoteManager : MonoBehaviour
     //make a message(set vote for _time, this type is x)
     public string startVote(int primaryKey, int type, int _time)
     {
-        Debug.Log("is error...?");
         String rst = "VOTESET_" + primaryKey.ToString() + "_" + type.ToString() + "_" + _time.ToString();
-        Debug.Log("Str is "+rst);
+        Debug.Log("Str is " + rst);
         return rst;
     }
 
@@ -65,9 +64,6 @@ public class VoteManager : MonoBehaviour
     //VOTEEND_primary_result(number)
     public void VoteRST(String[] values)
     {
-            if(String.Equals(values[1], "100"))
-            {
-                boss.PatternValid(int.Parse(values[2]));
-            }
+        boss.PatternValid(int.Parse(values[2])-1);
     }
 }

@@ -9,9 +9,11 @@ using System.Text;
 
 public class SocketCon : MonoBehaviour
 {
-    private Socket m_Socket;
+    //private static Socket m_Socke;
+    public static SocketCon instance;
 
-    public string iPAdress = "127.0.0.1";
+    static Socket m_Socket;
+    public string iPAdress = "192.168.170.24";
     public const int kPort = 8000;
 
     private int SenddataLength;
@@ -27,31 +29,20 @@ public class SocketCon : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        instance = this;
         m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        //time out --> have a long time...
-        m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 100000);
-        m_Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 100000);
+        IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("192.168.170.24"), 8000);
 
-        //boss --> instance of Boss(at GamaManager)
-        boss = GameManager.instance.boss;
-
-        /* initialize...
-         * 1. initialize ip address, 
-         ************************************************************************************************/
         try
         {
-            IPAddress ipAddr = System.Net.IPAddress.Parse(iPAdress);
-            IPEndPoint ipEndPoint = new System.Net.IPEndPoint(ipAddr, kPort);
-            m_Socket.Connect(ipEndPoint);
-            Debug.Log("Connection_TCP Server");
+            m_Socket.Connect(localEndPoint);
         }
-        catch (SocketException SCE)
+        catch
         {
-            Debug.Log("Socket connect error! : " + SCE.ToString());
-            return;
+            Console.Write("Unable to connect to remote end point!\r\n");
+            
         }
-
+        
         StringBuilder sb = new StringBuilder(); // String Builder Create
 
         sb.Append("Connection");
@@ -61,7 +52,7 @@ public class SocketCon : MonoBehaviour
             //first data sending...
             SenddataLength = Encoding.Default.GetByteCount(sb.ToString());
             Sendbyte = Encoding.Default.GetBytes(sb.ToString());
-            m_Socket.Send(Sendbyte, Sendbyte.Length, 0);
+            //m_Socket.Send(Sendbyte, Sendbyte.Length, 0);
         }
         catch (SocketException err)
         {
@@ -76,7 +67,7 @@ public class SocketCon : MonoBehaviour
             thread = new Thread(RunThread);
             thread.Start();
         }
-        //StartCoroutine("SocketRead_Pattern");
+        //StartCoroutine("SocketRead_Pattern");*/
     }
     
     void Update()
@@ -188,5 +179,9 @@ public class SocketCon : MonoBehaviour
             }
 
         }
+    }
+    public void endSocketCon()
+    {
+        m_Socket.Close();
     }
 }
