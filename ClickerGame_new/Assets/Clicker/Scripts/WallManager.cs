@@ -6,6 +6,7 @@ namespace Clicker {
 	public class WallManager : MonoBehaviour {
         public GameObject Wall;
         public Text numOfBlock;
+        public bool active;
         [SerializeField]
 		private Wall[] walls;
         //private Queue<Wall> wallSet;
@@ -31,7 +32,14 @@ namespace Clicker {
 			currentWallIndex = 0;
 			walls[currentWallIndex].IsActive = true;
 		}
-
+        void Update()
+        {
+            if (active)
+            {
+                makeNewBlock();
+                Instance.active = false;
+            }
+        }
 
         public void makeNewBlock()
         {
@@ -56,7 +64,7 @@ namespace Clicker {
             brokenNum++;
             int num = nextWallIndex - currentWallIndex;
             numOfBlock.text = num.ToString();
-            if (brokenNum % 5 == 0)
+            if (brokenNum % 2 == 0)
                 Player.Instance.changeWeapon();
 			if (++currentWallIndex == walls.Length||nextWallIndex+1==currentWallIndex) {
 				ClickerManager.Instance.PlayerWin();

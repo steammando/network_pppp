@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkBossGame", "NetworkBossGame.csproj", "{4C3EB934-66D5-355A-4740-E343D72BCF09}"
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkBossGame.CSharp", "NetworkBossGame.CSharp.csproj", "{72A471F4-813C-6F70-5A59-D668D591FC6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4C3EB934-66D5-355A-4740-E343D72BCF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C3EB934-66D5-355A-4740-E343D72BCF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C3EB934-66D5-355A-4740-E343D72BCF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C3EB934-66D5-355A-4740-E343D72BCF09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A471F4-813C-6F70-5A59-D668D591FC6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A471F4-813C-6F70-5A59-D668D591FC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A471F4-813C-6F70-5A59-D668D591FC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A471F4-813C-6F70-5A59-D668D591FC6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

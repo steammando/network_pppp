@@ -2,24 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <Fist>
+/// current fist class is not use the whole thing.
+/// 'TangNam'part or Trigger part...
+/// </Fist>
 public class Fist : MonoBehaviour
 {
 
-    public bool isLeft;
+    
     public GameObject TangnamBall;
 
+    //boolean//
     private bool atking;
     private bool palm;
+    public bool isLeft;
+
+    //Components...
     private GameObject temp;
     private Rigidbody2D rb2d;
     private Animator anim;
+
+
     enum state
     {
         attack, idle
     };
+    //position vector...
     private Vector3 bossPosition;
     private Vector3 tempPosition;
     private Vector3 objectPosition;
+
     private state currentState;
 
     // Use this for initialization

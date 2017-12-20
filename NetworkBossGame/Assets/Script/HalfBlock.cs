@@ -3,16 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HalfBlock : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	    
-	}
-	
-	// Update is called once per frame
-	void Update () {
-       
-    }
     public void goDown()
     {
         {
@@ -20,22 +10,7 @@ public class HalfBlock : MonoBehaviour {
             gameObject.GetComponent<EdgeCollider2D>().isTrigger = true;
         }
     }
-    /*
-    void OnCollisionEnter2D(Collision2D _col)
-    {
-        if (_col.gameObject.tag == "Head")
-        {
-            gameObject.GetComponent<EdgeCollider2D>().isTrigger = true;
-        }
-    }
-    void OnCollisionExit2D(Collision2D _col)
-    {
-        if (_col.gameObject.tag == "Foot")
-        {
-            Debug.Log("Attach");
-            gameObject.GetComponent<EdgeCollider2D>().isTrigger = false;
-        }
-    }*/
+    //if collide with head -->trigger
     void OnTriggerEnter2D(Collider2D _col)
     {
         if (_col.gameObject.tag == "Head")
@@ -43,6 +18,7 @@ public class HalfBlock : MonoBehaviour {
             gameObject.GetComponent<EdgeCollider2D>().isTrigger = true;
         }
     }
+    //if collide with foot --> collision
     void OnTriggerExit2D(Collider2D _col)
     {
         if (_col.gameObject.tag == "Foot")

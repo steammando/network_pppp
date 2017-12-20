@@ -8,7 +8,7 @@ public class BossBullet : MonoBehaviour
     // Use this for initialization
     private int numOfBullet;
     private float speed = 200;
-    private float shootGunSpeed = 500;
+    private float shootGunSpeed = 300;
     private bool bulletCoolDown;
     private float direction;
     public GameObject bullet;
@@ -16,13 +16,12 @@ public class BossBullet : MonoBehaviour
     {
         numOfBullet = 10;
         bulletCoolDown = true;
+        StartCoroutine("SuperShoot");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-            StartCoroutine("SuperShoot");
     }
     public void shootBullet()
     {
@@ -35,21 +34,23 @@ public class BossBullet : MonoBehaviour
         Vector3 playerPos;
         Vector3 bossPos;
         Vector3 shootDirection;
-
-        for (int i=0;i<3;i++)
+        while (true)
         {
-            playerPos = GameManager.instance.player.transform.position;
-            bossPos = GameManager.instance.boss.transform.position;
-            shootDirection = playerPos - bossPos;
-            shootDirection /= Mathf.Sqrt(Mathf.Pow(shootDirection.x, 2) + Mathf.Pow(shootDirection.y, 2));
-            GameObject obj;
-            obj = (GameObject)Instantiate(bullet, GameManager.instance.boss.transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(3f);
+            for (int i = 0; i < 3; i++)
+            {
+                playerPos = GameManager.instance.player.transform.position;
+                bossPos = GameManager.instance.boss.transform.position;
+                shootDirection = playerPos - bossPos;
+                shootDirection /= Mathf.Sqrt(Mathf.Pow(shootDirection.x, 2) + Mathf.Pow(shootDirection.y, 2));
+                GameObject obj;
+                obj = (GameObject)Instantiate(bullet, GameManager.instance.boss.transform.position, Quaternion.identity);
 
-            obj.GetComponent<Rigidbody2D>().AddForce(new Vector3(shootGunSpeed * shootDirection.x, shootGunSpeed * shootDirection.y, 0));
-            yield return new WaitForSeconds(0.1f);
+                obj.GetComponent<Rigidbody2D>().AddForce(new Vector3(shootGunSpeed * shootDirection.x, shootGunSpeed * shootDirection.y, 0));
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForSeconds(4f);
         }
-
-        yield return null;
     }
     IEnumerator oneShoot()
     {
